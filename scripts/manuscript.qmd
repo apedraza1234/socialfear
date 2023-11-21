@@ -25,8 +25,12 @@ bibliography: references.bib
 1. "born": Were you born in this country?
 2. "age"
 3. "sexnow1": Do you describe yourself as male, female, or transgender? 
+*This is self-described gender.*
+4. "sex": Code respondent's sex
+*This is gender presentation as interpreted by the interviewer.*
 4. "sexornt": Which of the following best describes you? 
-5. "racerank1": If you had to choose, which of these races do you identify most with?
+5. "racerank1": If you had to choose, which of these races do you identify most with? 
+*Kept this race variable here instead of "race" because it allows more heterogeneity within group.*
 6. "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
 7. "degree": Respondent's degree.
 8. "uscitzn": Are you a US citizen?
@@ -40,7 +44,10 @@ bibliography: references.bib
 5. "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
 6. "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
 7. "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
+8. "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period? 
 
+
+# set up 
 
 ```{r}
 #| label: load-packages
@@ -72,12 +79,19 @@ For the purposes of EDLD 651 final project, we only use data from the year 2022.
 ```{r}
 #| label: gss 2022
 gss2022 <- gss %>% 
-  filter(year == "2022")
+  filter(year == "2022") %>% 
+  select("year", "id", "age", "sex", "sexnow1", "sex", "degree", "race", "born", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "sexornt", "hispanic", "racerank1", "uscitzn", "dwelown")
 
 view(gss2022)
 ```
 
 I noticed that there are 3544 entries, but the  variable "id" goes to 3545. After investigation, I found that "id == 3419" doesn't exist and jumps from 3418 to 3420. It doesn't affect our work at the moment, so I'll leave it for now (and fix it later when needed). "id" is a functional unique identifier in our data.
+
+
+# recode variables
+
+
+
 
 
 
