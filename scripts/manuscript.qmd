@@ -1,0 +1,92 @@
+---
+title: "Social Conditions of Fear"
+author:
+  - Alejandra Pedraza
+  - W. Jamie Yang
+format: html
+highlight-style: pygments
+editor: visual
+execute:
+  eval: true # change to false before final submission
+  echo: true
+  message: false
+  warning: false
+code-fold: true
+embed-resources: true
+bibliography: references.bib
+---
+
+# codebook for variables
+
+**Dependent Variable**
+"fear": Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+
+**Sociodemographics Variables**
+1. "born": Were you born in this country?
+2. "age"
+3. "sexnow1": Do you describe yourself as male, female, or transgender? 
+4. "sexornt": Which of the following best describes you? 
+5. "racerank1": If you had to choose, which of these races do you identify most with?
+6. "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
+7. "degree": Respondent's degree.
+8. "uscitzn": Are you a US citizen?
+9. "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
+
+**Other Controls**
+1 "attend": How often do you attend religious services?
+2. "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now?
+3. "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
+4. "health": Would you say your own health, in general, is excellent, good, fair, or poor?
+5. "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
+6. "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
+7. "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
+
+
+```{r}
+#| label: load-packages
+#| include: false
+
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(here)
+library(rio)
+library(janitor)
+library(knitr)
+library(kableExtra)
+```
+
+```{r}
+#| label: loading data 
+
+gss <- import(here("data", "GSS.xlsx")) %>%
+  as_tibble() %>% 
+  characterize() %>% 
+  clean_names()
+
+view(gss)
+```
+
+For the purposes of EDLD 651 final project, we only use data from the year 2022. This will result in a much smaller data set, and we won't need to work with panel models for now.
+
+```{r}
+#| label: gss 2022
+gss2022 <- gss %>% 
+  filter(year == "2022")
+
+view(gss2022)
+```
+
+I noticed that there are 3544 entries, but the  variable "id" goes to 3545. After investigation, I found that "id == 3419" doesn't exist and jumps from 3418 to 3420. It doesn't affect our work at the moment, so I'll leave it for now (and fix it later when needed). "id" is a functional unique identifier in our data.
+
+
+
+
+
+
+
+
+
+
+
+
