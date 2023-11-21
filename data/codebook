@@ -1,0 +1,36 @@
+Codebook
+
+AGE 1.000 RESPONDENT'S AGE
+EDUC 1.000 RESPONDENT'S EDUCATION
+DEGREE 1.000 RESPONDENT'S DEGREE
+SEX 1.000 CODE RESPONDENT'S SEX
+RACE 1.000 What race do you consider yourself? RECORD VERBATIM AND CODE. CODE WITHOUT ASKING
+ONLY IF THERE IS NO DOUBT IN YOUR MIND.
+BORN 1.000 Were you born in this country?
+ATTEND 1.000 How often do you attend religious services? (USE CATEGORIES AS PROBES, IF NECESSARY.)
+HAPPY 1.000 Taken all together, how would you say things are these days--would you say that you are very happy,
+pretty happy, or not too happy?
+HEALTH 1.000 Would you say your own health, in general, is excellent, good, fair, or poor
+HELPFUL 1.000 Would you say that most of the time people try to be helpful, or that they are mostly just looking out forthemselves?
+FAIR 1.000 Do you think most people would try to take advantage of you if they got a chance, or would they try to be
+fair?
+TRUST 1.000 Generally speaking, would you say that most people can be trusted or that you can't be too careful in
+dealing with people?
+FEAR 1.000 Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+RACWORK 1.000 IF EMPLOYED: Are the people who work where you work all white, mostly white, about half and half,
+mostly black, or all black?
+DWELOWN 1.000 (Do you/Does your family) own your (home/apartment), pay rent, or what?
+HISPANIC 1.000 Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
+RACERANK1 1.000 If you had to choose, which of these races do you identify most with?
+RACECEN1 1.000 (What is your race? Indicate one or more races that you consider yourself to be.) First mention
+USCITZN 1.000 Now we would like to ask you about U.S. citizenship. Are you…
+EI10 1.000 R's SOCIOECONOMIC INDEX (2010)
+DISBLTY 4.222 Do you have a long-standing illness, a chronic condition, or a disability?
+RHEIGHT 4.222 What is your height?
+WEIGHT_ISSP 4.222 What is your weight?
+PARTNRS5 9.000 Now thinking about the past five years--the time since February/March 2015, and including the past
+12 months, how many sex partners have you had in that five year period
+SEXNOW1 9.000 Do you describe yourself as male, female, or transgender?
+RACLIVE 1.000 Are there any (“whites” for black respondents, “blacks” for non-black respondents) living in this
+neighborhood now?
+SEXORNT 9.000 Which of the following best describes you?
