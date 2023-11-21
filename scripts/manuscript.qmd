@@ -79,8 +79,7 @@ For the purposes of EDLD 651 final project, we only use data from the year 2022.
 ```{r}
 #| label: gss 2022
 gss2022 <- gss %>% 
-  filter(year == "2022") %>% 
-  select("year", "id", "age", "sex", "sexnow1", "sex", "degree", "race", "born", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "sexornt", "hispanic", "racerank1", "uscitzn", "dwelown")
+  filter(year == "2022") 
 
 view(gss2022)
 ```
@@ -88,11 +87,21 @@ view(gss2022)
 I noticed that there are 3544 entries, but the  variable "id" goes to 3545. After investigation, I found that "id == 3419" doesn't exist and jumps from 3418 to 3420. It doesn't affect our work at the moment, so I'll leave it for now (and fix it later when needed). "id" is a functional unique identifier in our data.
 
 
-# recode variables
+# analytical dataset
+
+```{r}
+#| label: select variables
+data <- gss2022 %>% 
+    select("year", "id", "age", "sex", "sexnow1", "sex", "degree", "race", "born", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "sexornt", "hispanic", "racerank1", "uscitzn", "dwelown") 
+
+view(data)
+```
 
 
+```{r}
+#| label: recode variables
 
-
+```
 
 
 
