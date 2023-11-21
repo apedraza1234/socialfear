@@ -1,26 +1,42 @@
 ---
 title: "Social Conditions of Fear"
-author: "Alejandra Pedraza"
+author:
+  - Alejandra Pedraza
+  - W. Jamie Yang
 format: html
+highlight-style: pygments
+editor: visual
+execute:
+  eval: true # change to false before final submission
+  echo: true
+  message: false
+  warning: false
+code-fold: true
+embed-resources: true
+bibliography: references.bib
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+#| label: load-packages
+#| include: false
+
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(here)
+library(rio)
+library(janitor)
+library(knitr)
+library(kableExtra)
 ```
 
-You can add options to executable code like this 
-
 ```{r}
-#| echo: false
-2 * 2
+#| label: loading data 
+
+gss <- import(here("data", "GSS.xlsx")) %>%
+  as_tibble() %>% 
+  characterize() %>% 
+  clean_names()
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
