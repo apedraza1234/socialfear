@@ -81,9 +81,9 @@ view(data)
 ```{r}
 #| label: coding all missing data as NA 
 # NOT WORKING - Need to troubleshoot
-missing_vec <- c(".i:  Inapplicable" , ".n: No answer", ".d: Do not Know/Cannot Choose", ".s: Skipped on Web")
+missing_vec <- c(".i:  Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", ".s: Skipped on Web")
 
-no_na_data <- data %>% 
+na_data <- data %>% 
   mutate(across(c(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown), ~ifelse(. %in% missing_vec, NA_character_, .)))
 
 
@@ -127,6 +127,3 @@ tidydata <- data %>%
   select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racecombo", "uscitzn", "dwelown")
 
 ```
-
-
-
