@@ -38,6 +38,7 @@ library(rio)
 library(janitor)
 library(knitr)
 library(kableExtra)
+library(mice)
 ```
 
 ```{r}
@@ -45,7 +46,7 @@ library(kableExtra)
 
 gss <- import(here("data", "GSS.xlsx")) %>%
   as_tibble() %>% 
-  characterize() %>% 
+  characterize() %>% # might not need characterize, TBD
   clean_names()
 
 view(gss)
@@ -65,24 +66,47 @@ I noticed that there are 3544 entries, but the variable "id" goes to 3545. After
 
 # analytical dataset
 
-Below, we create the analytical dataset. We use the gss2022 subset we created above, leaving the original dataset untouched -- this is important for replication purposes. First, we dropped the missing values for our dependent variable. The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", and ".s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values. 
+Below, we create the analytical dataset. We use the gss2022 subset we created above, leaving the original dataset untouched -- this is important for replication purposes. First, we dropped the missing values for our dependent variable. The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", and ".s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values.
 
-Then we sought to create a combined race variable from the variables "race" and "hispanic." After looking at the data, we saw that the options for the race variable were "Black, White, Other." This was not going to work. So, we opted to use the "racerank1" variable, since in this case participants were able to answer with either a race or ethnicity. There were 16 different responses: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data. Additionally, because race is an important control that we identify, we dropped the missing values. 
+Then we sought to create a combined race variable from the variables "race" and "hispanic." After looking at the data, we saw that the options for the race variable were "Black, White, Other." This was not going to work. So, we opted to use the "racerank1" variable, since in this case participants were able to answer with either a race or ethnicity. There were 16 different responses: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data. Additionally, because race is an important control that we identify, we dropped the missing values.
 
 ```{r}
-#| label: select variables
+#| label: select-variables
 data <- gss2022 %>% 
-    select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racerank1", "uscitzn", "dwelown") 
+    select(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown) 
 
 view(data)
 ```
 
 ```{r}
-#| label: recode variables
+#| label: coding all missing data as NA 
+# NOT WORKING - Need to troubleshoot
+missing_vec <- c(".i:  Inapplicable" , ".n: No answer", ".d: Do not Know/Cannot Choose", ".s: Skipped on Web")
+
+no_na_data <- data %>% 
+  mutate(across(c(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown), ~ifelse(. %in% missing_vec, NA_character_, .)))
+
+
+#data_complete <- mice(data, m=5)
+
+#summary(complete(data,1))
+
+```
+
+```{r}
+#| label: mice imputations to deal with missing data
+
+#data_complete <- mice(no_na_data, m=5)
+
+#summary(complete(data_complete,1))
+```
+
+```{r}
+#| label: recode-variables
 tidydata <- data %>% 
   mutate(fear = 
            case_when( fear == ".i:  Inapplicable" | fear == ".n: No answer" | 
-                        fear == ".d: Do not Know/Cannot Choose" |fear == ".s: Skipped on Web" ~ "missing", 
+                        fear == ".d: Do not Know/Cannot Choose" |fear == ".s: Skipped on Web" ~ NA_character_, 
                       fear == "YES" ~ "yes", 
                       fear == "NO" ~ "no")) %>% 
   filter(fear == "yes" | fear == "no") %>% 
@@ -98,11 +122,11 @@ tidydata <- data %>%
                      racerank1 == "Guamanian or Chamorro" | racerank1 == "Samoan" |
                        racerank1 == "Other Pacific Islander" ~ "NHPI",
                       racerank1 == "Some other race" ~ "Other",
-                     .default = "missing")) %>% 
-  filter(racecombo != "missing") %>% 
+                     .default = NA_character_)) %>% 
+  filter(!is.na(racecombo)) %>% 
   select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racecombo", "uscitzn", "dwelown")
-  
-    
-   
 
 ```
+
+
+
