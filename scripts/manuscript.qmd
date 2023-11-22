@@ -18,30 +18,11 @@ bibliography: references.bib
 
 # codebook for variables
 
-**Dependent Variable** 
-"fear": Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+**Dependent Variable** "fear": Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
-**Sociodemographics Variables** 
-1. "born": Were you born in this country? 
-2. "age" 
-3. "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.* 
-4. "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.* 
-5. "sexornt": Which of the following best describes you? 
-6. "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.* 
-7. "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from? 
-8. "degree": Respondent's degree. 
-9. "uscitzn": Are you a US citizen? 
-10. "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
+**Sociodemographics Variables** 1. "born": Were you born in this country? 2. "age" 3. "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.* 4. "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.* 5. "sexornt": Which of the following best describes you? 6. "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.* 7. "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from? 8. "degree": Respondent's degree. 9. "uscitzn": Are you a US citizen? 10. "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
 
-**Other Controls** 
-1 "attend": How often do you attend religious services? 
-2. "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now? 
-3. "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy? 
-4. "health": Would you say your own health, in general, is excellent, good, fair, or poor? 
-5. "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves? 
-6. "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair? 
-7. "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people? 
-8. "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
+**Other Controls** 1 "attend": How often do you attend religious services? 2. "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now? 3. "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy? 4. "health": Would you say your own health, in general, is excellent, good, fair, or poor? 5. "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves? 6. "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair? 7. "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people? 8. "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
 
 # set up
 
@@ -114,11 +95,14 @@ view(na_data)
 #| label: mice imputation
 
 complete5 <- mice(na_data, 
-                 m=5, 
+                 m=50, 
                  seed = 25)
 
-complete <- complete(complete5,1)
+complete(complete5,1)
 
+temp <- complete(complete5, action="long", include=TRUE)
+
+tidydata_complete <- as.mids(temp)
 
 ```
 
