@@ -99,7 +99,7 @@ view(data)
 
 ```{r}
 #| label: coding all missing data as NA 
-# NOT WORKING - Need to troubleshoot
+
 missing_vec <- c(".i:  Inapplicable", ".n:  No answer", ".d:  Do not Know/Cannot Choose", ".s:  Skipped on Web")
 	
 na_data <- data %>% 
@@ -108,29 +108,24 @@ na_data <- data %>%
 
 view(na_data)
 
-#data_complete <- mice(data, m=5)
-
-#summary(complete(data,1))
-
 ```
 
 ```{r}
-#| label: mice imputations to deal with missing data
+#| label: mice imputation
 
-#data_complete <- mice(no_na_data, m=5)
+complete5 <- mice(na_data, 
+                 m=5, 
+                 seed = 25)
 
-#summary(complete(data_complete,1))
+complete <- complete(complete5,1)
+
+
 ```
 
 ```{r}
 #| label: recode-variables
-tidydata <- data %>% 
-  mutate(fear = 
-           case_when( fear == ".i:  Inapplicable" | fear == ".n: No answer" | 
-                        fear == ".d: Do not Know/Cannot Choose" |fear == ".s: Skipped on Web" ~ NA_character_, 
-                      fear == "YES" ~ "yes", 
-                      fear == "NO" ~ "no")) %>% 
-  filter(fear == "yes" | fear == "no") %>% 
+tidydata <- na_data %>% 
+  filter(!is.na(fear)) %>% 
   mutate(racecombo = 
            case_when(racerank1 == "White" ~ "White",
                      racerank1 == "Black or African American" ~ "Black",
@@ -142,9 +137,8 @@ tidydata <- data %>%
                      racerank1 == "American Indian or Alaska Native" ~ "AIAN",
                      racerank1 == "Guamanian or Chamorro" | racerank1 == "Samoan" |
                        racerank1 == "Other Pacific Islander" ~ "NHPI",
-                      racerank1 == "Some other race" ~ "Other",
-                     .default = NA_character_)) %>% 
-  filter(!is.na(racecombo)) %>% 
-  select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racecombo", "uscitzn", "dwelown")
+                      racerank1 == "Some other race" ~ "Other")) %>% 
+  select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racecombo", "uscitzn", "dwelown") 
+  
 
 ```
