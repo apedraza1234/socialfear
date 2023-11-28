@@ -88,6 +88,7 @@ library(knitr)
 library(kableExtra)
 library(mice)
 library(forcats)
+library(ggplot2)
 ```
 
 ```{r}
@@ -129,7 +130,7 @@ To deal with the large amount of missing values, we used mice imputations. Curre
 
 ```{r}
 #| label: mice imputation
-# DO NOT RUN 
+#| eval: false
 complete5 <- mice(na_data, 
                  m = 50, 
                  seed = 25)
@@ -152,6 +153,8 @@ Race/ ethnicity is an important control for our models. First, we sought to crea
 #| label: recoding variables 
 tidydata <- na_data %>% 
   filter(!is.na(fear)) %>% 
+  mutate(fear = factor(case_when(fear == "NO" ~ "no",
+                                 fear == "YES" ~ "yes"))) %>% 
   mutate(racecombo = 
            factor(case_when(racerank1 == "White" ~ "White",
                      racerank1 == "Black or African-American" ~ "Black",
@@ -238,5 +241,67 @@ tidydata <- na_data %>%
 ```
 
 ```{r}
+#| label: creating a smaller subset from data
+
+gss_subset <- tidydata %>% 
+  select(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, 
+         partnrs5, fear) 
 ```
+
+```{r}
+#| label: pivot longer and pivot wider to get proportion of yes and no by race and display on a table
+#| eval: false
+
+temp <- gss_subset %>% 
+  pivot_longer(
+    cols = fear,
+    names_to = "fear",
+    values_to = "answer") %>% 
+  select(racecombo, answer) %>% 
+  mutate(fear = as.numeric(case_when(answer == "no" ~ "0",
+                                 answer == "yes" ~ "1"))) %>% 
+  select(racecombo, fear) 
+
+%>% 
+  pivot_wider(
+    names_from = racecombo,
+    values_from = fear
+  )
+
+%>% 
+  group_by(racecombo) 
+
+%>% 
+  summarize(proportion = fear /sum(fear == "yes", na.rm = TRUE)) %>% 
+  kable(caption = "Proportion Social Fear by Race",
+        col.names = c("Race", "Proportion"),
+        digits = 1,
+        booktabs = TRUE)
+
+
+```
+
+
+```{r}
+#| label: fig-fear_race
+#| fig-cap: Bar graph showing the proportion or respondants, by race, that feared walking alone at night.
+
+tidydata %>% 
+  filter(!is.na(racecombo)) %>% 
+  filter(racecombo != "Other") %>% 
+  ggplot(aes(x = racecombo, y = after_stat(prop), group = fear, 
+             fill = fear)) +
+  geom_bar(position = "dodge") + 
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Race",
+       caption = "Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?",
+       x = "Race",
+       y = NULL,
+       fill = "Fear"
+       ) +
+  theme_bw()
+
+```
+
+
 
