@@ -28,6 +28,8 @@ bibliography: references.bib
 
 # Codebook
 
+#XM: I understand this is a draft version and would suggest adding more information about the data set.
+
 **Dependent Variable**
 
 -   "fear": Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
@@ -39,6 +41,8 @@ bibliography: references.bib
 2.  "age"
 
 3.  "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.*
+
+    #XM: To me this question really doesn't make sense... there are transgender males and females, did they mean non-binary? I'd feel concerned about this variable
 
 4.  "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.*
 
@@ -140,6 +144,7 @@ complete5 <- mice(na_data,
                  m = 50, 
                  seed = 25)
 
+#XM: there are still NAs in the imputated data even after I tried changing parameters in mice(), maybe reducing the variables would help? also I think it might be helpful to investigate missing patterns and correlations before imputations
 summary(complete(complete5, 1))
 
 temp <- complete(complete5, action = "long", include = TRUE)
