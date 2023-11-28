@@ -132,7 +132,7 @@ To deal with the large amount of missing values, we used mice imputations. Curre
 #| label: mice imputation
 #| eval: false
 complete5 <- mice(na_data, 
-                 m = 50, 
+                 m = 5, 
                  seed = 25)
 
 summary(complete(complete5, 1))
@@ -249,10 +249,10 @@ gss_subset <- tidydata %>%
 ```
 
 ```{r}
-#| label: pivot longer and pivot wider to get proportion of yes and no by race and display on a table
-#| eval: false
+#| label: tbl-fear_race
+#| tbl-cap: Table showing mean fear by race.  
 
-temp <- gss_subset %>% 
+gss_subset %>% 
   pivot_longer(
     cols = fear,
     names_to = "fear",
@@ -260,25 +260,12 @@ temp <- gss_subset %>%
   select(racecombo, answer) %>% 
   mutate(fear = as.numeric(case_when(answer == "no" ~ "0",
                                  answer == "yes" ~ "1"))) %>% 
-  select(racecombo, fear) 
-
-%>% 
-  pivot_wider(
-    names_from = racecombo,
-    values_from = fear
-  )
-
-%>% 
-  group_by(racecombo) 
-
-%>% 
-  summarize(proportion = fear /sum(fear == "yes", na.rm = TRUE)) %>% 
-  kable(caption = "Proportion Social Fear by Race",
-        col.names = c("Race", "Proportion"),
-        digits = 1,
-        booktabs = TRUE)
-
-
+  select(racecombo, fear) %>% 
+  group_by(racecombo) %>% 
+  summarize(mean_fear = mean(fear)) %>% 
+  kable(caption = "Mean Social Fear by Race",
+        col.names = c("Race", "Mean"),
+        digits = 3)
 ```
 
 
@@ -286,7 +273,7 @@ temp <- gss_subset %>%
 #| label: fig-fear_race
 #| fig-cap: Bar graph showing the proportion or respondants, by race, that feared walking alone at night.
 
-tidydata %>% 
+gss_subset %>% 
   filter(!is.na(racecombo)) %>% 
   filter(racecombo != "Other") %>% 
   ggplot(aes(x = racecombo, y = after_stat(prop), group = fear, 
