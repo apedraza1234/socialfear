@@ -34,43 +34,43 @@ bibliography: references.bib
 
 **Sociodemographics Variables**
 
-1.  "born": Were you born in this country?
+-   "born": Were you born in this country?
 
-2.  "age"
+-   "age"
 
-3.  "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.*
+-   "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.*
 
-4.  "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.*
+-   "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.*
 
-5.  "sexornt": Which of the following best describes you?
+-   "sexornt": Which of the following best describes you?
 
-6.  "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.*
+-   "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.*
 
-7.  "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
+-   "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
 
-8.  "degree": Respondent's degree.
+-   "degree": Respondent's degree.
 
-9.  "uscitzn": Are you a US citizen?
+-   "uscitzn": Are you a US citizen?
 
-10. "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
+-   "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
 
 **Other Controls**
 
-1.  "attend": How often do you attend religious services?
+-   "attend": How often do you attend religious services?
 
-2.  "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now?
+-   "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now?
 
-3.  "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
+-   "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
 
-4.  "health": Would you say your own health, in general, is excellent, good, fair, or poor?
+-   "health": Would you say your own health, in general, is excellent, good, fair, or poor?
 
-5.  "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
+-   "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
 
-6.  "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
+-   "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
 
-7.  "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
+-   "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
 
-8.  "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
+-   "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
 
 # Data Cleaning
 
@@ -94,10 +94,8 @@ library(forcats)
 #| label: loading data 
 gss <- import(here("data", "GSS.xlsx")) %>%
   as_tibble() %>% 
-  characterize() %>% # might not need characterize, TBD
   clean_names()
 
-view(gss)
 ```
 
 ```{r}
@@ -105,18 +103,16 @@ view(gss)
 gss2022 <- gss %>% 
   filter(year == "2022") 
 
-view(gss2022)
 ```
 
 ```{r}
 #| label: select-variables
 data <- gss2022 %>% 
-    select(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown) 
+    select(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown) 
 
-view(data)
 ```
 
-The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", and ".s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values. Below we recode all these indicators as NAs. This is necessary to rice mice imputations to address missing values.
+The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", and ".s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values. Below we recode all these indicators as NAs. This is necessary to run mice imputations to address missing values.
 
 ```{r}
 #| label: coding all missing data as NA 
@@ -124,10 +120,8 @@ The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: D
 missing_vec <- c(".i:  Inapplicable", ".n:  No answer", ".d:  Do not Know/Cannot Choose", ".s:  Skipped on Web")
 	
 na_data <- data %>% 
-  mutate(across(c(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown), 
+  mutate(across(c(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown), 
                 ~ifelse(. %in% missing_vec, NA_character_, .)))
-
-view(na_data)
 
 ```
 
@@ -135,7 +129,7 @@ To deal with the large amount of missing values, we used mice imputations. Curre
 
 ```{r}
 #| label: mice imputation
-
+# DO NOT RUN 
 complete5 <- mice(na_data, 
                  m = 50, 
                  seed = 25)
@@ -150,10 +144,12 @@ save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 ```
 
+Fear is our dependent variable, so the first step was to remove NAs for that variabble. 
+
 Race/ ethnicity is an important control for our models. First, we sought to create a combined race variable from the variables "race" and "hispanic." After looking at the data, we saw that the options for the race variable were "Black, White, Other." This does not provide the control we need. So, we opted to use the "racerank1" variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.
 
 ```{r}
-#| label: recode variables
+#| label: recoding variables 
 tidydata <- na_data %>% 
   filter(!is.na(fear)) %>% 
   mutate(racecombo = 
@@ -175,8 +171,72 @@ tidydata <- na_data %>%
               "Hispanic",
               "AIAN",
               "NHPI",
-              "Other")) %>% 
-  select(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racecombo, uscitzn, dwelown) 
+              "Other")) %>%   
+  mutate(partnrs5 = 
+           factor(case_when(partnrs5 == "NO PARTNERS" ~ "0",
+                            partnrs5 == "1 PARTNER" | partnrs5 == "2 PARTNERS" |
+                              partnrs5 == "3 PARTNERS" | 
+                              partnrs5 == "4 PARTNERS" ~ "Less than 5",
+                            partnrs5 == "5-10 PARTNERS" ~ "5-10",
+                            partnrs5 == "11-20 PARTNERS" ~ "11-20",
+                            partnrs5 == "21-100 PARTNERS" ~ "21-100",
+                            partnrs5 == "MORE THAN 100 PARTNERS" ~ "100 or more",
+                            .default = NA))) %>%
+  mutate(partnrs5 = fct_relevel(partnrs5,
+                                "0",
+                                "Less than 5",
+                                "5-10",
+                                "11-20",
+                                "21-100",
+                                "100 or more")) %>%
+  mutate(uscitzn = 
+           factor(case_when(uscitzn == "A u.s. citizen" | uscitzn == "A u.s. citizen born in puerto rico, the u.s. virgin islands, or the northern marianas islands (if volunteered)" |
+                       uscitzn == "Born outside of the u.s. to parents who were u.s. citizens at that time (if volunteered)" ~ "Yes",
+                     uscitzn == "Not a u.s. citizen" ~ "No",
+                     .default = NA))) %>% 
+   mutate(dwelown =
+           factor(case_when(dwelown == "Own or is buying" ~ "Owner",
+                            dwelown == "Pays rent" ~ "Renter",
+                            dwelown == "Other" ~ "Other"))) %>% 
+  mutate(degree = fct_relevel(degree, 
+                              "Less than high school",
+                              "High school",
+                              "Associate/junior college",
+                              "Bachelor's",
+                              "Graduate")) %>% 
+  mutate(attend = fct_relevel(attend, 
+                              "Never",
+                              "Less than once a year",
+                              "About once or twice a year",
+                              "2-3 times a month",
+                              "Nearly every week",
+                              "Every week",
+                              "Several times a week")) %>% 
+  mutate(happy = fct_relevel(happy, 
+                             "Not too happy",
+                             "Pretty happy",
+                             "Very happy",)) %>% 
+  mutate(health = fct_relevel(health, 
+                              "Poor",
+                              "Fair",
+                              "Good",
+                              "Excellent")) %>% 
+  mutate(helpful = fct_relevel(helpful, 
+                               "Looking out for themselves",
+                               "Try to be helpful",
+                               "Depends")) %>% 
+  mutate(fair = fct_relevel(fair, 
+                            "Would take advantage of you",
+                            "Would try to be fair",
+                            "Depends")) %>% 
+  mutate(trust = fct_relevel(trust, 
+                             "Can't be too careful",
+                             "Can trust",
+                             "Depends")) %>% 
+  select(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racecombo, uscitzn, dwelown) 
   
-
 ```
+
+```{r}
+```
+
