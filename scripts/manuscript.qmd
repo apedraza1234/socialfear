@@ -233,6 +233,7 @@ To deal with the large amount of missing values, we used mice imputations. Curre
 
 ```{r}
 #| label: mice imputation
+#| eval: false
 
 complete5 <- mice(gss_subset, 
                  m = 5, 

@@ -3113,122 +3113,122 @@ vertical-align: -.125em;
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span><span class="fu">ifelse</span>(. <span class="sc">%in%</span> missing_vec, <span class="cn">NA_character_</span>, .)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>To deal with the large amount of missing values, we used mice imputations. Currently, there are errors in my code, so this is not running correctly. Feedback welcomed.</p>
-<div class="cell">
-<details>
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>complete5 <span class="ot">&lt;-</span> <span class="fu">mice</span>(na_data, </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">m =</span> <span class="dv">5</span>, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">25</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">complete</span>(complete5, <span class="dv">1</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">complete</span>(complete5, <span class="at">action =</span> <span class="st">&quot;long&quot;</span>, <span class="at">include =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>tidydata_complete <span class="ot">&lt;-</span> <span class="fu">as.mids</span>(temp)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(tidydata_complete, <span class="at">file =</span> <span class="st">&quot;data/tidydata_complete.RData&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 <p>Fear is our dependent variable, so the first step was to remove NAs for that variabble.</p>
 <p>Race/ ethnicity is an important control for our models. First, we sought to create a combined race variable from the variables “race” and “hispanic.” After looking at the data, we saw that the options for the race variable were “Black, White, Other.” This does not provide the control we need. So, we opted to use the “racerank1” variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.</p>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tidydata <span class="ot">&lt;-</span> na_data <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(fear)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fear =</span> <span class="fu">factor</span>(<span class="fu">case_when</span>(fear <span class="sc">==</span> <span class="st">&quot;NO&quot;</span> <span class="sc">~</span> <span class="st">&quot;no&quot;</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                                 fear <span class="sc">==</span> <span class="st">&quot;YES&quot;</span> <span class="sc">~</span> <span class="st">&quot;yes&quot;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">racecombo =</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(racerank1 <span class="sc">==</span> <span class="st">&quot;White&quot;</span> <span class="sc">~</span> <span class="st">&quot;White&quot;</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Black or African-American&quot;</span> <span class="sc">~</span> <span class="st">&quot;Black&quot;</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Hispanic&quot;</span> <span class="sc">~</span> <span class="st">&quot;Hispanic&quot;</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Asian Indian&quot;</span> <span class="sc">|</span> racerank1 <span class="sc">==</span>  <span class="st">&quot;Chinese&quot;</span> <span class="sc">|</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span>  <span class="st">&quot;Filipino&quot;</span> <span class="sc">|</span> racerank1 <span class="sc">==</span>  <span class="st">&quot;Japanese&quot;</span> <span class="sc">|</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span>  <span class="st">&quot;Korean&quot;</span> <span class="sc">|</span>  racerank1 <span class="sc">==</span>  <span class="st">&quot;Vietnamese&quot;</span> <span class="sc">|</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span>  <span class="st">&quot;Other Asian&quot;</span> <span class="sc">~</span> <span class="st">&quot;Asian&quot;</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;American Indian or Alaska Native&quot;</span> <span class="sc">~</span> <span class="st">&quot;AIAN&quot;</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Guamanian or Chamorro&quot;</span> <span class="sc">|</span> racerank1 <span class="sc">==</span> <span class="st">&quot;Samoan&quot;</span> <span class="sc">|</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span> <span class="st">&quot;Other Pacific Islander&quot;</span> <span class="sc">~</span> <span class="st">&quot;NHPI&quot;</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                      racerank1 <span class="sc">==</span> <span class="st">&quot;Some other race&quot;</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">racecombo =</span> <span class="fu">fct_relevel</span>(racecombo, </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;White&quot;</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Black&quot;</span>, </span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Asian&quot;</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Hispanic&quot;</span>,</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;AIAN&quot;</span>,</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;NHPI&quot;</span>,</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Other&quot;</span>)) <span class="sc">%&gt;%</span>   </span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">partnrs5 =</span> </span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(partnrs5 <span class="sc">==</span> <span class="st">&quot;NO PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;0&quot;</span>,</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;1 PARTNER&quot;</span> <span class="sc">|</span> partnrs5 <span class="sc">==</span> <span class="st">&quot;2 PARTNERS&quot;</span> <span class="sc">|</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>                              partnrs5 <span class="sc">==</span> <span class="st">&quot;3 PARTNERS&quot;</span> <span class="sc">|</span> </span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>                              partnrs5 <span class="sc">==</span> <span class="st">&quot;4 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Less than 5&quot;</span>,</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;5-10 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;5-10&quot;</span>,</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;11-20 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;11-20&quot;</span>,</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;21-100 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;21-100&quot;</span>,</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;MORE THAN 100 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;100 or more&quot;</span>,</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>                            <span class="at">.default =</span> <span class="cn">NA</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">partnrs5 =</span> <span class="fu">fct_relevel</span>(partnrs5,</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;0&quot;</span>,</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Less than 5&quot;</span>,</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;5-10&quot;</span>,</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;11-20&quot;</span>,</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;21-100&quot;</span>,</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;100 or more&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">uscitzn =</span> </span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(uscitzn <span class="sc">==</span> <span class="st">&quot;A u.s. citizen&quot;</span> <span class="sc">|</span> uscitzn <span class="sc">==</span> <span class="st">&quot;A u.s. citizen born in puerto rico, the u.s. virgin islands, or the northern marianas islands (if volunteered)&quot;</span> <span class="sc">|</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>                       uscitzn <span class="sc">==</span> <span class="st">&quot;Born outside of the u.s. to parents who were u.s. citizens at that time (if volunteered)&quot;</span> <span class="sc">~</span> <span class="st">&quot;Yes&quot;</span>,</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>                     uscitzn <span class="sc">==</span> <span class="st">&quot;Not a u.s. citizen&quot;</span> <span class="sc">~</span> <span class="st">&quot;No&quot;</span>,</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>                     <span class="at">.default =</span> <span class="cn">NA</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">dwelown =</span></span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(dwelown <span class="sc">==</span> <span class="st">&quot;Own or is buying&quot;</span> <span class="sc">~</span> <span class="st">&quot;Owner&quot;</span>,</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>                            dwelown <span class="sc">==</span> <span class="st">&quot;Pays rent&quot;</span> <span class="sc">~</span> <span class="st">&quot;Renter&quot;</span>,</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>                            dwelown <span class="sc">==</span> <span class="st">&quot;Other&quot;</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">degree =</span> <span class="fu">fct_relevel</span>(degree, </span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Less than high school&quot;</span>,</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;High school&quot;</span>,</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Associate/junior college&quot;</span>,</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Bachelor&#39;s&quot;</span>,</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Graduate&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">attend =</span> <span class="fu">fct_relevel</span>(attend, </span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Never&quot;</span>,</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Less than once a year&quot;</span>,</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;About once or twice a year&quot;</span>,</span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;2-3 times a month&quot;</span>,</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Nearly every week&quot;</span>,</span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Every week&quot;</span>,</span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Several times a week&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">happy =</span> <span class="fu">fct_relevel</span>(happy, </span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Not too happy&quot;</span>,</span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Pretty happy&quot;</span>,</span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Very happy&quot;</span>,)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">health =</span> <span class="fu">fct_relevel</span>(health, </span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Poor&quot;</span>,</span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Fair&quot;</span>,</span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Good&quot;</span>,</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Excellent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">helpful =</span> <span class="fu">fct_relevel</span>(helpful, </span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Looking out for themselves&quot;</span>,</span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Try to be helpful&quot;</span>,</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fair =</span> <span class="fu">fct_relevel</span>(fair, </span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;Would take advantage of you&quot;</span>,</span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;Would try to be fair&quot;</span>,</span>
-<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trust =</span> <span class="fu">fct_relevel</span>(trust, </span>
-<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Can&#39;t be too careful&quot;</span>,</span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Can trust&quot;</span>,</span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racecombo, uscitzn, dwelown) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tidydata <span class="ot">&lt;-</span> na_data <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(fear)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fear =</span> <span class="fu">factor</span>(<span class="fu">case_when</span>(fear <span class="sc">==</span> <span class="st">&quot;NO&quot;</span> <span class="sc">~</span> <span class="st">&quot;no&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                                 fear <span class="sc">==</span> <span class="st">&quot;YES&quot;</span> <span class="sc">~</span> <span class="st">&quot;yes&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">racecombo =</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(racerank1 <span class="sc">==</span> <span class="st">&quot;White&quot;</span> <span class="sc">~</span> <span class="st">&quot;White&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Black or African-American&quot;</span> <span class="sc">~</span> <span class="st">&quot;Black&quot;</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Hispanic&quot;</span> <span class="sc">~</span> <span class="st">&quot;Hispanic&quot;</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Asian Indian&quot;</span> <span class="sc">|</span> racerank1 <span class="sc">==</span>  <span class="st">&quot;Chinese&quot;</span> <span class="sc">|</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span>  <span class="st">&quot;Filipino&quot;</span> <span class="sc">|</span> racerank1 <span class="sc">==</span>  <span class="st">&quot;Japanese&quot;</span> <span class="sc">|</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span>  <span class="st">&quot;Korean&quot;</span> <span class="sc">|</span>  racerank1 <span class="sc">==</span>  <span class="st">&quot;Vietnamese&quot;</span> <span class="sc">|</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span>  <span class="st">&quot;Other Asian&quot;</span> <span class="sc">~</span> <span class="st">&quot;Asian&quot;</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;American Indian or Alaska Native&quot;</span> <span class="sc">~</span> <span class="st">&quot;AIAN&quot;</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                     racerank1 <span class="sc">==</span> <span class="st">&quot;Guamanian or Chamorro&quot;</span> <span class="sc">|</span> racerank1 <span class="sc">==</span> <span class="st">&quot;Samoan&quot;</span> <span class="sc">|</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                       racerank1 <span class="sc">==</span> <span class="st">&quot;Other Pacific Islander&quot;</span> <span class="sc">~</span> <span class="st">&quot;NHPI&quot;</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                      racerank1 <span class="sc">==</span> <span class="st">&quot;Some other race&quot;</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">racecombo =</span> <span class="fu">fct_relevel</span>(racecombo, </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;White&quot;</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Black&quot;</span>, </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Asian&quot;</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Hispanic&quot;</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;AIAN&quot;</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;NHPI&quot;</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;Other&quot;</span>)) <span class="sc">%&gt;%</span>   </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">partnrs5 =</span> </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(partnrs5 <span class="sc">==</span> <span class="st">&quot;NO PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;0&quot;</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;1 PARTNER&quot;</span> <span class="sc">|</span> partnrs5 <span class="sc">==</span> <span class="st">&quot;2 PARTNERS&quot;</span> <span class="sc">|</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                              partnrs5 <span class="sc">==</span> <span class="st">&quot;3 PARTNERS&quot;</span> <span class="sc">|</span> </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>                              partnrs5 <span class="sc">==</span> <span class="st">&quot;4 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;Less than 5&quot;</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;5-10 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;5-10&quot;</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;11-20 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;11-20&quot;</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;21-100 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;21-100&quot;</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>                            partnrs5 <span class="sc">==</span> <span class="st">&quot;MORE THAN 100 PARTNERS&quot;</span> <span class="sc">~</span> <span class="st">&quot;100 or more&quot;</span>,</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                            <span class="at">.default =</span> <span class="cn">NA</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">partnrs5 =</span> <span class="fu">fct_relevel</span>(partnrs5,</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;0&quot;</span>,</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Less than 5&quot;</span>,</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;5-10&quot;</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;11-20&quot;</span>,</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;21-100&quot;</span>,</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;100 or more&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">uscitzn =</span> </span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(uscitzn <span class="sc">==</span> <span class="st">&quot;A u.s. citizen&quot;</span> <span class="sc">|</span> uscitzn <span class="sc">==</span> <span class="st">&quot;A u.s. citizen born in puerto rico, the u.s. virgin islands, or the northern marianas islands (if volunteered)&quot;</span> <span class="sc">|</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>                       uscitzn <span class="sc">==</span> <span class="st">&quot;Born outside of the u.s. to parents who were u.s. citizens at that time (if volunteered)&quot;</span> <span class="sc">~</span> <span class="st">&quot;Yes&quot;</span>,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>                     uscitzn <span class="sc">==</span> <span class="st">&quot;Not a u.s. citizen&quot;</span> <span class="sc">~</span> <span class="st">&quot;No&quot;</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>                     <span class="at">.default =</span> <span class="cn">NA</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">dwelown =</span></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(<span class="fu">case_when</span>(dwelown <span class="sc">==</span> <span class="st">&quot;Own or is buying&quot;</span> <span class="sc">~</span> <span class="st">&quot;Owner&quot;</span>,</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>                            dwelown <span class="sc">==</span> <span class="st">&quot;Pays rent&quot;</span> <span class="sc">~</span> <span class="st">&quot;Renter&quot;</span>,</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>                            dwelown <span class="sc">==</span> <span class="st">&quot;Other&quot;</span> <span class="sc">~</span> <span class="st">&quot;Other&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">degree =</span> <span class="fu">fct_relevel</span>(degree, </span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Less than high school&quot;</span>,</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;High school&quot;</span>,</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Associate/junior college&quot;</span>,</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Bachelor&#39;s&quot;</span>,</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Graduate&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">attend =</span> <span class="fu">fct_relevel</span>(attend, </span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Never&quot;</span>,</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Less than once a year&quot;</span>,</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;About once or twice a year&quot;</span>,</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;2-3 times a month&quot;</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Nearly every week&quot;</span>,</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Every week&quot;</span>,</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Several times a week&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">happy =</span> <span class="fu">fct_relevel</span>(happy, </span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Not too happy&quot;</span>,</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Pretty happy&quot;</span>,</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Very happy&quot;</span>,)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">health =</span> <span class="fu">fct_relevel</span>(health, </span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Poor&quot;</span>,</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Fair&quot;</span>,</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Good&quot;</span>,</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Excellent&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">helpful =</span> <span class="fu">fct_relevel</span>(helpful, </span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Looking out for themselves&quot;</span>,</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Try to be helpful&quot;</span>,</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fair =</span> <span class="fu">fct_relevel</span>(fair, </span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;Would take advantage of you&quot;</span>,</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;Would try to be fair&quot;</span>,</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>                            <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trust =</span> <span class="fu">fct_relevel</span>(trust, </span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Can&#39;t be too careful&quot;</span>,</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Can trust&quot;</span>,</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racecombo, uscitzn, dwelown) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="ot">&lt;-</span> tidydata <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         partnrs5, fear) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="ot">&lt;-</span> tidydata <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         partnrs5, fear) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>To deal with the large amount of missing values, we used mice imputations. Currently, there are errors in my code, so this is not running correctly. Feedback welcomed.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>complete5 <span class="ot">&lt;-</span> <span class="fu">mice</span>(gss_subset, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">m =</span> <span class="dv">5</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">25</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">complete</span>(complete5, <span class="dv">1</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>temp5 <span class="ot">&lt;-</span> <span class="fu">complete</span>(complete5, <span class="at">action =</span> <span class="st">&quot;long&quot;</span>, <span class="at">include =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>tidydata_complete <span class="ot">&lt;-</span> <span class="fu">as.mids</span>(temp5)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(tidydata_complete, <span class="at">file =</span> <span class="st">&quot;data/tidydata_complete.RData&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
@@ -3244,55 +3244,57 @@ vertical-align: -.125em;
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                 answer <span class="sc">==</span> <span class="st">&quot;yes&quot;</span> <span class="sc">~</span> <span class="st">&quot;1&quot;</span>))) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(racecombo, fear) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(racecombo) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">prop_fear =</span> <span class="fu">mean</span>(fear)) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Proportion Social Fear by Race&quot;</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Race&quot;</span>, <span class="st">&quot;Proportion&quot;</span>),</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_fear =</span> <span class="fu">mean</span>(fear)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Mean Social Fear by Race&quot;</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Race&quot;</span>, <span class="st">&quot;Mean&quot;</span>),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
+<div id="tbl-fear_race" class="anchored">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
-<caption>Proportion Social Fear by Race</caption>
+<caption>Table 1: Table showing mean fear by race.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Race</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Proportion</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Mean</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">White</td>
-<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.357</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Black</td>
-<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.426</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Asian</td>
-<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.467</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Hispanic</td>
-<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.448</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">AIAN</td>
-<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.476</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">NHPI</td>
-<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.500</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Other</td>
-<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.310</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">NA</td>
-<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.441</td>
 </tr>
 </tbody>
 </table>
+</div>
 
 
 </div>
@@ -3300,7 +3302,7 @@ vertical-align: -.125em;
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tidydata <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(racecombo)) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(racecombo <span class="sc">!=</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> racecombo, <span class="at">y =</span> <span class="fu">after_stat</span>(prop), <span class="at">group =</span> fear, </span>
