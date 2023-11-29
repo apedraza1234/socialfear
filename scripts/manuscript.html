@@ -3194,11 +3194,19 @@ margin: 0 0 !important;
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span><span class="fu">ifelse</span>(. <span class="sc">%in%</span> missing_vec, <span class="cn">NA_character_</span>, .)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<<<<<<< HEAD
 <p>Fear is our dependent variable, so the first step was to remove observations with NAs for that variable, as those won’t be meaningful for our analysis.</p>
 <p>Informed by theory, race/ ethnicity is an important covariate for our models. First, we sought to create a combined race variable from the variables “race” and “hispanic.” After looking at the data, we saw that the options for the race variable were “Black, White, Other.” This does not provide the control we need. So, we opted to use the “racerank1” variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
+=======
+<p>Fear is our dependent variable, so the first step was to remove NAs for that variabble.</p>
+<p>Race/ ethnicity is an important control for our models. First, we sought to create a combined race variable from the variables “race” and “hispanic.” After looking at the data, we saw that the options for the race variable were “Black, White, Other.” This does not provide the control we need. So, we opted to use the “racerank1” variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+>>>>>>> f7e651b08562322b9d47c830e48bd7d4978b9754
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tidydata <span class="ot">&lt;-</span> na_data <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(fear)) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fear =</span> <span class="fu">factor</span>(<span class="fu">case_when</span>(fear <span class="sc">==</span> <span class="st">&quot;NO&quot;</span> <span class="sc">~</span> <span class="st">&quot;no&quot;</span>,</span>
@@ -3285,6 +3293,7 @@ margin: 0 0 !important;
 <span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Can trust&quot;</span>,</span>
 <span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Depends&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racecombo, uscitzn, dwelown) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<<<<<<< HEAD
 </details>
 </div>
 <div class="cell">
@@ -3309,10 +3318,13 @@ margin: 0 0 !important;
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#tidydata_complete &lt;- as.mids(temp5)</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#save(tidydata_complete, file = &quot;data/tidydata_complete.RData&quot;)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+>>>>>>> f7e651b08562322b9d47c830e48bd7d4978b9754
 </details>
 </div>
 <div class="cell">
 <details>
+<<<<<<< HEAD
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="sc">%&gt;%</span> </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
@@ -3328,6 +3340,50 @@ margin: 0 0 !important;
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Mean Social Fear by Race&quot;</span>,</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Race&quot;</span>, <span class="st">&quot;Mean&quot;</span>),</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="ot">&lt;-</span> tidydata <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>         partnrs5, fear) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>To deal with the large amount of missing values, we used mice imputations. Currently, there are errors in my code, so this is not running correctly. Feedback welcomed.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>complete5 <span class="ot">&lt;-</span> <span class="fu">mice</span>(gss_subset, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">m =</span> <span class="dv">5</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seed =</span> <span class="dv">25</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">complete</span>(complete5, <span class="dv">1</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>temp5 <span class="ot">&lt;-</span> <span class="fu">complete</span>(complete5, <span class="at">action =</span> <span class="st">&quot;long&quot;</span>, <span class="at">include =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>tidydata_complete <span class="ot">&lt;-</span> <span class="fu">as.mids</span>(temp5)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(tidydata_complete, <span class="at">file =</span> <span class="st">&quot;data/tidydata_complete.RData&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(racecombo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(racecombo <span class="sc">!=</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> fear,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">&quot;fear&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;answer&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(racecombo, answer) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fear =</span> <span class="fu">as.numeric</span>(<span class="fu">case_when</span>(answer <span class="sc">==</span> <span class="st">&quot;no&quot;</span> <span class="sc">~</span> <span class="st">&quot;0&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                                 answer <span class="sc">==</span> <span class="st">&quot;yes&quot;</span> <span class="sc">~</span> <span class="st">&quot;1&quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(racecombo, fear) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(racecombo) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_fear =</span> <span class="fu">mean</span>(fear)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">&quot;Mean Social Fear by Race&quot;</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Race&quot;</span>, <span class="st">&quot;Mean&quot;</span>),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> f7e651b08562322b9d47c830e48bd7d4978b9754
 </details>
 <div class="cell-output-display">
 <div id="tbl-fear_race" class="anchored">
@@ -3363,6 +3419,7 @@ margin: 0 0 !important;
 <tr class="even">
 <td style="text-align: left;">NHPI</td>
 <td style="text-align: right;">0.500</td>
+<<<<<<< HEAD
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Other</td>
@@ -3371,6 +3428,8 @@ margin: 0 0 !important;
 <tr class="even">
 <td style="text-align: left;">NA</td>
 <td style="text-align: right;">0.441</td>
+=======
+>>>>>>> f7e651b08562322b9d47c830e48bd7d4978b9754
 </tr>
 </tbody>
 </table>
@@ -3776,6 +3835,7 @@ no: 1440, yes: 878
 </div>
 <div class="cell">
 <details>
+<<<<<<< HEAD
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fear, sexnow1, racecombo, degree) <span class="sc">%&gt;%</span> </span>
@@ -4774,6 +4834,23 @@ text-indent: 25px;
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Fear&quot;</span></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gss_subset <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(racecombo)) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(racecombo <span class="sc">!=</span> <span class="st">&quot;Other&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> racecombo, <span class="at">y =</span> <span class="fu">after_stat</span>(prop), <span class="at">group =</span> fear, </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> fear)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Social Fear by Race&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?&quot;</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">&quot;Race&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Fear&quot;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+>>>>>>> f7e651b08562322b9d47c830e48bd7d4978b9754
 </details>
 <div class="cell-output-display">
 <div id="fig-fear_race" class="quarto-figure quarto-figure-center anchored">
