@@ -234,17 +234,17 @@ To deal with the large amount of missing values, we used mice imputations. Curre
 ```{r}
 #| label: mice imputation
 
-complete5 <- mice(gss_subset, 
-                 m = 5, 
-                 seed = 25)
+#complete5 <- mice(gss_subset, 
+ #                m = 5, 
+  #               seed = 25)
 
-summary(complete(complete5, 1))
+#summary(complete(complete5, 1))
 
-temp5 <- complete(complete5, action = "long", include = TRUE)
+#temp5 <- complete(complete5, action = "long", include = TRUE)
 
-tidydata_complete <- as.mids(temp5)
+#tidydata_complete <- as.mids(temp5)
 
-save(tidydata_complete, file = "data/tidydata_complete.RData")
+#save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 ```
 
@@ -277,15 +277,25 @@ I want to make a note about the interpretation for "mean fear by race". Because 
 Let's understand our sample a little better. There are 2318 observations and 11 selected variables in our data set. 
 
 ```{r}
-#| label: descriptive statistics
+#| label: get to know data more
 view(gss_subset)
 
 skimr::skim(gss_subset)
-
 ```
 
+
 ```{r}
-#| label: table - gender and fear
+#| label: descriptive statistics
+gss_subset %>% 
+  select(fear, sexnow1, racecombo, degree) %>% 
+  gtsummary::tbl_summary()
+```
+
+
+```{r}
+#| label: tbl_gender_fear
+#| tbl-cap: table showing the distribution of fear by gender
+
 gss_subset %>% 
   tabyl(fear, sexnow1) %>% 
   adorn_percentages() %>% 
@@ -301,7 +311,8 @@ gss_subset %>%
 ```
 
 ```{r}
-#| label: table - racecombo and fear
+#| label: tbl_racecombo_fear
+#| tbl-cap: table showing the distribution of fear by race
 gss_subset %>% 
   tabyl(fear, racecombo) %>% 
   adorn_percentages() %>% 
@@ -320,6 +331,7 @@ gss_subset %>%
 ```{r}
 #| label: fig1-fear_gender
 #| fig-cap: Bar graph showing the proportion or respondants, by gender, that feared walking alone at night.
+#| message: false
 
 gss_subset %>% 
   ggplot(aes(x = sexnow1, y = after_stat(prop), group = fear, 
