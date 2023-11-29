@@ -126,9 +126,9 @@ na_data <- data %>%
 
 ```
 
-Fear is our dependent variable, so the first step was to remove NAs for that variabble.
+Fear is our dependent variable, so the first step was to remove observations with NAs for that variable, as those won't be meaningful for our analysis. 
 
-Race/ ethnicity is an important control for our models. First, we sought to create a combined race variable from the variables "race" and "hispanic." After looking at the data, we saw that the options for the race variable were "Black, White, Other." This does not provide the control we need. So, we opted to use the "racerank1" variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.
+Informed by theory, race/ ethnicity is an important covariate for our models. First, we sought to create a combined race variable from the variables "race" and "hispanic." After looking at the data, we saw that the options for the race variable were "Black, White, Other." This does not provide the control we need. So, we opted to use the "racerank1" variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.
 
 ```{r}
 #| label: recoding variables 
@@ -225,8 +225,7 @@ tidydata <- na_data %>%
 #| label: creating a smaller subset from data
 
 gss_subset <- tidydata %>% 
-  select(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, 
-         partnrs5, fear) 
+  select(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, partnrs5, fear) 
 ```
 
 To deal with the large amount of missing values, we used mice imputations. Currently, there are errors in my code, so this is not running correctly. Feedback welcomed.
@@ -268,6 +267,8 @@ gss_subset %>%
         digits = 3)
 ```
 
+I want to make a note about the interpretation for "mean fear by race". Because our outcome variable is dichotomous (yes or no to having fear of walking alone in neighborhood at night). The mean number approximately gets at the idea of the proportions of a specific racial group that experience fear of walking in neighborhood at night. 
+
 ```{r}
 #| label: fig-fear_race
 #| fig-cap: Bar graph showing the proportion or respondants, by race, that feared walking alone at night.
@@ -288,3 +289,21 @@ gss_subset %>%
   theme_bw()
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
