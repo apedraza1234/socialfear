@@ -229,8 +229,7 @@ gss_subset <- tidydata %>%
          partnrs5, fear) 
 ```
 
-To deal with the large amount of missing values, we used mice imputations. Currently, there are errors in my code, so this is not running correctly. Feedback welcomed.
-
+To deal with the large amount of missing values, we used mice imputations. In the code below we create a new dataset with the imputed values. We will use this dataset in the future to run models. 
 ```{r}
 #| label: mice imputation
 #| eval: false
@@ -254,6 +253,8 @@ save(tidydata_complete, file = "data/tidydata_complete.RData")
 #| tbl-cap: Table showing mean fear by race.  
 
 gss_subset %>% 
+  filter(!is.na(racecombo)) %>% 
+  filter(racecombo != "Other") %>% 
   pivot_longer(
     cols = fear,
     names_to = "fear",
