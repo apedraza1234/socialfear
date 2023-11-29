@@ -24,6 +24,8 @@ bibliography: references.bib
 
 **Other Controls** 1 "attend": How often do you attend religious services? 2. "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now? 3. "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy? 4. "health": Would you say your own health, in general, is excellent, good, fair, or poor? 5. "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves? 6. "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair? 7. "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people? 8. "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
 
+***Thank you for providing the detail for your variables***
+
 # set up
 
 ```{r}
@@ -39,6 +41,8 @@ library(janitor)
 library(knitr)
 library(kableExtra)
 library(mice)
+
+# I don't think I've seen the mice package before. Curious to see how you use that.
 ```
 
 ```{r}
@@ -50,6 +54,8 @@ gss <- import(here("data", "GSS.xlsx")) %>%
   clean_names()
 
 view(gss)
+
+# Great use of notes
 ```
 
 For the purposes of EDLD 651 final project, we only use data from the year 2022. This will result in a much smaller data set, and we won't need to work with panel models for now.
@@ -89,6 +95,7 @@ na_data <- data %>%
 
 view(na_data)
 
+# Cool code
 ```
 
 ```{r}
