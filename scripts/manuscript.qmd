@@ -89,6 +89,7 @@ library(kableExtra)
 library(mice)
 library(forcats)
 library(ggplot2)
+library(vcd)
 ```
 
 ```{r}
@@ -247,6 +248,7 @@ save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 ```
 
+
 ```{r}
 #| label: tbl-fear_race
 #| tbl-cap: Table showing mean fear by race.  
@@ -269,6 +271,92 @@ gss_subset %>%
 
 I want to make a note about the interpretation for "mean fear by race". Because our outcome variable is dichotomous (yes or no to having fear of walking alone in neighborhood at night). The mean number approximately gets at the idea of the proportions of a specific racial group that experience fear of walking in neighborhood at night. 
 
+
+# Tables and Figures
+
+Let's understand our sample a little better. There are 2318 observations and 11 selected variables in our data set. 
+
+```{r}
+#| label: descriptive statistics
+view(gss_subset)
+
+skimr::skim(gss_subset)
+
+```
+
+```{r}
+#| label: table - gender and fear
+gss_subset %>% 
+  tabyl(fear, sexnow1) %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns(position = "front") %>% 
+  adorn_title(
+    row_name = "Fear at Night",
+    col_name = "Gender",
+    placement = "combined"
+  ) %>% 
+  flextable::flextable() %>% 
+  flextable::autofit()
+```
+
+```{r}
+#| label: table - racecombo and fear
+gss_subset %>% 
+  tabyl(fear, racecombo) %>% 
+  adorn_percentages() %>% 
+  adorn_pct_formatting() %>% 
+  adorn_ns(position = "front") %>% 
+  adorn_title(
+    row_name = "Fear at Night",
+    col_name = "Race",
+    placement = "combined"
+  ) %>% 
+  flextable::flextable() %>% 
+  flextable::autofit()
+```
+
+
+```{r}
+#| label: fig1-fear_gender
+#| fig-cap: Bar graph showing the proportion or respondants, by gender, that feared walking alone at night.
+
+gss_subset %>% 
+  ggplot(aes(x = sexnow1, y = after_stat(prop), group = fear, 
+             fill = fear)) +
+  geom_bar(position = "dodge") + 
+  scale_y_continuous(labels = scales::percent) + 
+  labs(title = "Social Fear by Gender",
+       caption = "Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?",
+       x = "Gender",
+       y = NULL,
+       fill = "Fear"
+       ) +
+  theme_bw()
+
+```
+
+```{r}
+#| label: fig2-fear_gender
+#| fig-cap: Bar graph showing the proportion or respondants, by gender, that feared walking alone at night.
+
+gss_subset %>% 
+  count(sexnow1, fear) %>% 
+  ggplot() +
+  geom_col(
+    mapping = aes(x = fear,
+                  fill = sexnow1,
+                  y = n)
+  ) +
+  coord_flip() +
+  labs(title = "Social Fear by Gender",
+       caption = "Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?",
+       x = "Count",
+       y = "Fear",
+       )
+  theme_bw()
+```
+
 ```{r}
 #| label: fig-fear_race
 #| fig-cap: Bar graph showing the proportion or respondants, by race, that feared walking alone at night.
@@ -289,11 +377,6 @@ gss_subset %>%
   theme_bw()
 
 ```
-
-
-
-
-
 
 
 
