@@ -20,9 +20,45 @@ bibliography: references.bib
 
 **Dependent Variable** "fear": Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
-**Sociodemographics Variables** 1. "born": Were you born in this country? 2. "age" 3. "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.* 4. "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.* 5. "sexornt": Which of the following best describes you? 6. "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.* 7. "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from? 8. "degree": Respondent's degree. 9. "uscitzn": Are you a US citizen? 10. "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
+**Sociodemographics Variables**
 
-**Other Controls** 1 "attend": How often do you attend religious services? 2. "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now? 3. "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy? 4. "health": Would you say your own health, in general, is excellent, good, fair, or poor? 5. "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves? 6. "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair? 7. "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people? 8. "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
+1.  "born": Were you born in this country?
+
+2.  "age"
+
+3.  "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.*
+
+4.  "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.*
+
+5.  "sexornt": Which of the following best describes you?
+
+6.  "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.*
+
+7.  "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from? 8. "degree": Respondent's degree.
+
+8.  "uscitzn": Are you a US citizen?
+
+9.  "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
+
+# I modified the formatting of this list so that it appears numerically.
+
+**Other Controls**
+
+1.  "attend": How often do you attend religious services?
+
+2.  "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now?
+
+3.  "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
+
+4.  "health": Would you say your own health, in general, is excellent, good, fair, or poor?
+
+5.  "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
+
+6.  "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
+
+7.  "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
+
+8.  "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
 
 # set up
 
@@ -75,7 +111,10 @@ Then we sought to create a combined race variable from the variables "race" and 
 data <- gss2022 %>% 
     select(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown) 
 
+# instead of using view(), I would suggest using head() to take a look at the data within quarto.  
+head(data)
 view(data)
+
 ```
 
 ```{r}
@@ -87,12 +126,15 @@ na_data <- data %>%
   mutate(across(c(id, age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown), 
                 ~ifelse(. %in% missing_vec, NA_character_, .)))
 
+# instead of using view(), I would suggest using head() to take a look at the data within quarto.  
+head(na_data)
 view(na_data)
 
 ```
 
 ```{r}
 #| label: mice imputation
+# I am unsure what this code chunk does. A comment may be useful for reproducibility. 
 
 complete5 <- mice(na_data, 
                  m=50, 
@@ -124,5 +166,29 @@ tidydata <- na_data %>%
                       racerank1 == "Some other race" ~ "Other")) %>% 
   select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racecombo", "uscitzn", "dwelown") 
   
+#the above recoding can also be done using factors. I also noticed that the results were difficult. 
 
+na_data %>%
+  mutate(racecombo1 = fct_recode(racerank1,
+                                "White" = "White",
+                                "Black or African American" = "Black",
+                                "Hispanic" = "Hispanic",
+                                "Asian" = "Asian Indian",
+                                "Asian" = "Filipino",
+                                "Asian" = "Japanese",
+                                "Asian" = "Korean",
+                                "Asian" = "Vietnamese",
+                                "Asian" = "Other Asian",
+                                "AIAN" = "American Indian or Alaska Native",
+                                "NHPI" ="Guamanian or Chamorro",
+                                "NHPI" = "Samoan",
+                                "NHPI" = "Other Pacific Islander",
+                                "Other" = "Some other race")) %>%
+  select("id", "age", "sex", "sexnow1", "sexornt", "degree", "attend", "raclive", "happy", "health", "helpful", "fair", "trust", "fear",  "partnrs5", "racecombo1", "uscitzn", "dwelown") %>%
+  skim()
+
+# It might be a good idea to do some descriptive statistics here just to have a quick look at your data. I'm using skimr here to inspect the data.
+
+library(skimr)
+skim(na_data)
 ```
