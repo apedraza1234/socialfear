@@ -5,6 +5,9 @@ author:
   - W. Jamie Yang
 abstract: "TBW" # this is where abstract should be pasted 
 format: html
+toc: true
+toc-location: left
+toc-title: Table of Contents
 highlight-style: pygments
 editor: visual
 execute:
@@ -12,10 +15,13 @@ execute:
   echo: true
   message: false
   warning: false
+fig-width: 6.5
+fig-height: 8
 code-fold: true
-code-summary: "Show the code"
+code-summary: "View Code"
 embed-resources: true
 bibliography: references.bib
+link-citations: true
 ---
 
 # Introduction
@@ -26,53 +32,63 @@ bibliography: references.bib
 
 # Discussion
 
-# Codebook
+\newpage
 
-**Dependent Variable**
+# References
 
--   "fear": Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+\newpage
 
-**Sociodemographics Variables**
+# Appendices
 
--   "born": Were you born in this country?
+## Appendix 1: Codebook
 
--   "age"
+### Dependent Variable
 
--   "sexnow1": Do you describe yourself as male, female, or transgender? *This is self-described gender.*
+-   **fear**: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
--   "sex": Code respondent's sex *This is gender presentation as interpreted by the interviewer.*
+### Independent Variables
 
--   "sexornt": Which of the following best describes you?
+#### Individual-Level
 
--   "racerank1": If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.*
+-   **born**: Were you born in this country?
 
--   "hispanic": Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
+-   **age**
 
--   "degree": Respondent's degree.
+-   **sexnow1**: Do you describe yourself as male, female, or transgender? *This is self-described gender.*
 
--   "uscitzn": Are you a US citizen?
+-   **sex**: Code respondent's sex (*This is gender presentation as interpreted by the interviewer).*
 
--   "dwelown": (Do you/Does your family) own your (home/apartment), pay rent, or what?
+-   **sexornt**: Which of the following best describes you?
 
-**Other Controls**
+-   **racerank1**: If you had to choose, which of these races do you identify most with? *Kept this race variable here instead of "race" because it allows more heterogeneity within group.*
 
--   "attend": How often do you attend religious services?
+-   **hispanic**: Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
 
--   "raclive": Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now?
+-   **degree**: Respondent's degree.
 
--   "happy": Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
+-   **uscitzn**: Are you a US citizen?
 
--   "health": Would you say your own health, in general, is excellent, good, fair, or poor?
+-   **dwelown**: (Do you/Does your family) own your (home/apartment), pay rent, or what?
 
--   "helpful": Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
+#### Community-Level
 
--   "fair": Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
+-   **attend**: How often do you attend religious services?
 
--   "trust": Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
+-   **raclive**: Are there any ("whites" for black respondents, "blacks" for non-black respondents) living in this neighborhood now?
 
--   "partnrs5": since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
+-   **happy**: Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
 
-# Data Cleaning
+-   **health**: Would you say your own health, in general, is excellent, good, fair, or poor?
+
+-   **helpful**: Would you say that most of the time people try to be helpful, or that they are mostly just looking out for themselves?
+
+-   **fair**: Do you think most people would try to take advantage of you if they got a chance, or would they try to be fair?
+
+-   **trust**: Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
+
+-   **partnrs5**: since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
+
+## Appendix II: Data Cleaning
 
 ```{r}
 #| label: load-packages
@@ -93,7 +109,8 @@ library(RColorBrewer)
 ```
 
 ```{r}
-#| label: loading data 
+#| label: load-data 
+
 gss <- import(here("data", "GSS.xlsx")) %>%
   as_tibble() %>% 
   clean_names()
@@ -101,7 +118,8 @@ gss <- import(here("data", "GSS.xlsx")) %>%
 ```
 
 ```{r}
-#| label: filtering 2022 data
+#| label: filtering-2022-data
+
 gss2022 <- gss %>% 
   filter(year == "2022") 
 
@@ -109,35 +127,37 @@ gss2022 <- gss %>%
 
 ```{r}
 #| label: select-variables
+
 data <- gss2022 %>% 
     select(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown) 
 
 ```
 
-The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", and ".s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values. Below we recode all these indicators as NAs. This is necessary to run mice imputations to address missing values.
+The GSS codes missing data as either ".i: Inapplicable", ".n: No answer", ".d: Do not Know/Cannot Choose", and ".s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values. For our next steps, we need to reexamine this decision as".i: Inapplicable" is a valid skip and needs to be accounted for accordingly.
+
+In the following code chunk, we recode the aforementioned indicators as NAs. This is a necessary first step to run mice imputations.
 
 ```{r}
-#| label: coding all missing data as NA 
+#| label: coding-missing-data-as-NAs 
 
 missing_vec <- c(".i:  Inapplicable", ".n:  No answer", ".d:  Do not Know/Cannot Choose", ".s:  Skipped on Web")
 	
-na_data <- data %>% 
+tidydata <- data %>% 
   mutate(across(c(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown), 
                 ~ifelse(. %in% missing_vec, NA_character_, .)))
 
 ```
 
-Fear is our dependent variable, so the first step was to remove NAs for that variabble.
+First we filtered out all NAs from our dependent variable, fear.
 
 Informed by theory, race/ ethnicity is an important covariate for our models. First, we sought to create a combined race variable from the variables "race" and "hispanic." After looking at the data, we saw that the options for the race variable were "Black, White, Other." This does not provide the control we need. So, we opted to use the "racerank1" variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.
 
-Fear is our dependent variable, so the first step was to remove NAs for that variabble.
-
-Race/ ethnicity is an important control for our models. First, we sought to create a combined race variable from the variables “race” and “hispanic.” After looking at the data, we saw that the options for the race variable were “Black, White, Other.” This does not provide the control we need. So, we opted to use the “racerank1” variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.
+Then we factored and recoded selected variables for our analysis. It was important to not have any variables as character strings, otherwise mice imputations would not work.
 
 ```{r}
-#| label: recoding variables 
-tidydata <- na_data %>% 
+#| label: factoring-recoding-variables 
+
+tidydata <- tidydata %>% 
   filter(!is.na(fear)) %>% 
   mutate(age = as.numeric(age)) %>% 
   mutate(raclive = as.factor(raclive)) %>% 
@@ -224,22 +244,23 @@ tidydata <- na_data %>%
   mutate(trust = fct_relevel(trust, 
                              "Can't be too careful",
                              "Can trust",
-                             "Depends")) %>% 
-  select(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racecombo, uscitzn, dwelown) 
+                             "Depends")) 
 
 ```
 
+Once our data was tidy, we selected the variables we would be using for our analysis.
+
 ```{r}
-#| label: creating a smaller subset from data
+#| label: subset-data
 
 gss_subset <- tidydata %>% 
   select(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, partnrs5, fear) 
 ```
 
-To deal with the large amount of missing values, we used mice imputations. In the code below we create a new dataset with the imputed values. We will use this dataset in the future to run models.
+To deal with the large amount of missing values, we ran mice imputations. In the code below we create a new dataset with the imputed values. We will use this dataset in our next stage to run various models.
 
 ```{r}
-#| label: mice imputation
+#| label: mice-imputation
 #| eval: false
 
 complete5 <- mice(gss_subset, 
@@ -256,9 +277,13 @@ save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 ```
 
+\newpage
+
+# Tables and Figures
+
 ```{r}
-#| label: tbl-fear_race
-#| tbl-cap: Table showing mean fear by race.  
+#| label: tbl-FearRaceSex
+#| tbl-cap: Mean fear by race and gender calculated from respondents affirmative answer to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night? 
 
 gss_subset %>% 
   filter(!is.na(racecombo)) %>% 
@@ -281,129 +306,151 @@ gss_subset %>%
   ) %>% 
   kable(caption = "Social Fear by Race and Gender",
         col.names = c("Race", "Female", "Male", "Transgender"),
-        digits = 3)
-
-# to complete later; kableextra to add n and other details 
+        digits = 3) %>% 
+  kableExtra::row_spec(0:6, background = "white") 
 ```
 
 ```{r}
-#| label: fig-FearRace
-#| fig-cap: Bar graph showing the proportion or respondants, by race, that feared walking alone at night.
+#| label: fig-FearRaceGender
+#| fig-cap: Bar graph showing the percentage of respondants, by race and gender, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
 gss_subset %>% 
   filter(!is.na(racecombo)) %>% 
   filter(racecombo != "Other") %>% 
-  group_by(racecombo) %>% 
+  filter(!is.na(sexnow1)) %>% 
+  filter(sexnow1 != "None of these") %>% 
+  group_by(racecombo, sexnow1) %>% 
   summarize(fear = sum(fear == "yes"), 
             n = n(),
             prop = fear/n) %>% 
-  ggplot(aes(x = racecombo, y = prop, fill = racecombo)) +
-  geom_col() + 
-  scale_fill_brewer(palette = "Accent") +
+  ggplot(aes(x = racecombo, y = prop)) +
+  geom_col(aes(fill = sexnow1), position = "dodge") + 
+  scale_fill_brewer(palette = "Purples") +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "Social Fear by Race",
-       caption = "Question: Is there any area right around here where you would be afraid to walk alone at night?",
+  labs(title = "Social Fear by Race and Gender",
+       subtitle = "Is social fear influenced by respondent's race and gender?",
        x = "Race",
-       y = NULL) +
+       y = "Percentage of Respondents who Expressed Fear") +
   theme_bw() +
-  guides(fill = "none")
+  guides(fill = guide_legend(title = "Gender")) 
 
 ```
 
-
-# Tables and Figures
-
 ```{r}
-view(gss_subset)
+#| label: fig-FearRelgiousPart
+#| fig-cap: Bar graph showing the percentage of respondants, by degree of participation in religious activities, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
-skimr::skim(gss_subset)
-```
-
-```{r}
 gss_subset %>% 
-  select(fear, sexnow1, racecombo1, degree) %>% 
-  gtsummary::tbl_summary()
+  filter(!is.na(attend)) %>% 
+  group_by(attend) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = attend, y = prop, fill = attend)) +
+  geom_col() + 
+  scale_fill_brewer(palette = "Blues") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Relgious Participation",
+       subtitle = "Is social fear influenced by religious participation?",
+       x = "Religious Participation",
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = "none") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
 ```
 
 ```{r}
+#| label: fig-FearHappiness
+#| fig-cap: Bar graph showing the percentage of respondants, by happiness levels, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+
 gss_subset %>% 
-  tabyl(fear, sexnow1) %>% 
-  adorn_percentages() %>% 
-  adorn_pct_formatting() %>% 
-  adorn_ns(position = "front") %>% 
-  adorn_title(
-    row_name = "Fear at Night",
-    col_name = "Gender",
-    placement = "combined"
-  ) %>% 
-  flextable::flextable() %>% 
-  flextable::autofit()
+  filter(!is.na(happy)) %>% 
+  group_by(happy) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = happy, y = prop, fill = happy)) +
+  geom_col() + 
+  scale_fill_brewer(palette = "PuBuGn") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Happiness Level",
+       subtitle = "Is social fear influenced by level of happiness?", 
+       x = "Happiness Level",
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = "none") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 ```{r}
-gss_subset %>% 
-  tabyl(fear, racecombo) %>% 
-  adorn_percentages() %>% 
-  adorn_pct_formatting() %>% 
-  adorn_ns(position = "front") %>% 
-  adorn_title(
-    row_name = "Fear at Night",
-    col_name = "Race",
-    placement = "combined"
-  ) %>% 
-  flextable::flextable() %>% 
-  flextable::autofit()
-```
+#| label: fig-FearNeighborhood
+#| fig-cap: Bar graph showing the percentage of respondants, based on race and neighborhood diversity, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
-```{r}
-gss_subset %>% 
-  ggplot(aes(x = sexnow1, y = after_stat(prop), group = fear, 
-             fill = fear)) +
-  geom_bar(position = "dodge") + 
-  scale_y_continuous(labels = scales::percent) + 
-  labs(title = "Social Fear by Gender",
-       caption = "Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?",
-       x = "Gender",
-       y = NULL,
-       fill = "Fear"
-       ) +
-  theme_bw()
-```
-
-```{r}
-gss_subset %>% 
-  count(sexnow1, fear) %>% 
-  ggplot() +
-  geom_col(
-    mapping = aes(x = fear,
-                  fill = sexnow1,
-                  y = n)
-  ) +
-  coord_flip() +
-  labs(title = "Social Fear by Gender",
-       caption = "Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?",
-       x = "Count",
-       y = "Fear",
-       )+
-  theme_bw()
-```
-
-```{r}
 gss_subset %>% 
   filter(!is.na(racecombo)) %>% 
   filter(racecombo != "Other") %>% 
-  ggplot(aes(x = racecombo, y = after_stat(prop), group = fear, 
-             fill = fear)) +
-  geom_bar(position = "dodge") + 
+  filter(!is.na(raclive)) %>%  
+  group_by(racecombo, raclive) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = racecombo, y = prop)) +
+  geom_col(aes(fill = raclive), position = "dodge") + 
+  scale_fill_brewer(palette = "Set2") +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "Social Fear by Race",
-       caption = "Question: Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?",
+  labs(title = "Social Fear by Race and Neighborhood Diversity",
+       subtitle = "Is social fear influenced by respondent's race and their neighborhood's diversity?",
        x = "Race",
-       y = NULL,
-       fill = "Fear"
-       ) +
-  theme_bw()
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = guide_legend(title = "Residential Diversity")) 
 ```
 
+```{r}
+#| label: fig-FearHealth
+#| fig-cap: Bar graph showing the percentage of respondants, by health levels, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
+gss_subset %>% 
+  filter(!is.na(health)) %>% 
+  group_by(health) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = health, y = prop, fill = health)) +
+  geom_col() + 
+  scale_fill_brewer(palette = "PuRd") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Health Level",
+       subtitle = "Is social fear influenced by health?", 
+       x = "Health Level",
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = "none") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+```
 
+```{r}
+#| label: fig-FearPartnersGender
+#| fig-cap: Bar graph showing the percentage of respondants, by gender and number of sexual partners in the past 5 years, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+
+gss_subset %>% 
+  filter(!is.na(partnrs5)) %>% 
+  filter(!is.na(sexnow1)) %>% 
+  filter(sexnow1 != "None of these") %>% 
+  group_by(partnrs5, sexnow1) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = partnrs5, y = prop)) +
+  geom_col(aes(fill = sexnow1), position = "dodge") + 
+  scale_fill_brewer(palette = "Spectral") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Gender and Sexual Partners",
+       subtitle = "Is social fear influenced by respondent's gender and number of sexual partners?",
+       x = "Number of Sexual Partners in the Past 5 Years",
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = guide_legend(title = "Gender")) 
+
+```
