@@ -26,6 +26,8 @@ link-citations: true
 
 # Introduction
 
+I'm leaving myself a note here to figure out how to do word count in a Quarto document. This will allow me to directly write in the qmd file and save the trouble of writing elsewhere like a word document and pasting things here.  
+
 # Methods
 
 # Results
