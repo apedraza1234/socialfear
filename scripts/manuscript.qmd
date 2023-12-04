@@ -26,9 +26,11 @@ link-citations: true
 
 # Introduction
 
-I'm leaving myself a note here to figure out how to do word count in a Quarto document. This will allow me to directly write in the qmd file and save the trouble of writing elsewhere like a word document and pasting things here.  
+I'm leaving myself a note here to figure out how to do word count in a Quarto document. This will allow me to directly write in the qmd file and save the trouble of writing elsewhere like a word document and pasting things here.
 
 # Methods
+
+This study draws data from the General Social Survey (GSS). The GSS is a nationally representative interview-based survey that has collected longitudinal data since 1972. The GSS contains questions on demographics, behaviors, attitudes, civil liberaties, crime and violence, intergroup tolerance, morality, national spending priorities, psychological well-being, social mobility, stress, and traumatic events. Our study is limited to data collected during the 2022 wave and we draw primarily on demographic and well-being variables.   
 
 # Results
 
