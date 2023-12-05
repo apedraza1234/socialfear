@@ -56,7 +56,7 @@ Our control and independent variables are representative of two different dimens
 
 -   **dwelown**: (Do you/Does your family) own your (home/apartment), pay rent, or what?
 
-Informed by theory, race is an important co-variate for our models as racialization serves to structure the daily lives of individuals based on where they fall on the Black-white spectrum, their opportunities, and their sense of belonging [@bonilla-silva2022; @omi2015]. First, we sought to create a combined race variable from the variables **race** and **hispanic**. After looking at the data, we saw that **race** was coded as "Black, White, or Other." This does not provide the control we need as it omits those in the "racial middle" that are more likely to identify with a panethnic label and reject the Black-white binary \[ @mora2014; @obrien2008; [@rodriguez2000]\]. Instead, we opted to use the **racerank1** variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other, Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious [@haney-lópez2006; @dowling2014], however they are the standard with quantitative data.
+Informed by theory, race is an important co-variate for our models as racialization serves to structure the daily lives of individuals based on where they fall on the Black-white spectrum, their opportunities, and their sense of belonging [@bonilla-silva2022; @omi2015]. First, we sought to create a combined race variable from the variables **race** and **hispanic**. After looking at the data, we saw that **race** was coded as "Black, White, or Other." This does not provide the control we need as it omits those in the "racial middle" that are more likely to identify with a panethnic label and reject the Black-white binary [@mora2014; @obrien2008; @rodriguez2000]. Instead, we opted to use the **racerank1** variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other, Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious [@haney-lópez2006; @dowling2014], however they are the standard with quantitative data.
 
 Similarly, gender was a contentious variable to account for. Although the GSS has several questions aimed at capturing respondent's gender, we found them to be lacking in breathe. For example, the GSS codes **sex** within a Male/Female binary based solely on interviewer discretion. Ultimately, we opted to use **sexnow1** since it was the variable that most closely captured self-described gender. However, it remains problematic as respondents were only provided four choice: Male, Female, Transgender, and None of these. Out of 2306 cases, only 10 were coded as Transgender and 9 as None of these.
 
@@ -80,13 +80,9 @@ The second dimension we sought to capture was community-level characteristics, i
 
 -   **partnrs5**: since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
 
-# Results
+These variables seek to account for respondent's social embeddedness and networks of support. Specifically, **raclive** is an important variable to consider as it accounts for neighborhood composition, in the absence of a neighborhood dissimilarity index. While this variable only looks at Black-white racial composition, it provides a good benchmark to examine broader racial antagonisms. Research has documented the associated fears white experience when Blacks or people of other racial backgrounds move into their neighborhood [@lacayo2017; @massey2020].
 
-# Discussion
-
-\newpage
-
-# Data Script
+## Data Script
 
 ```{r}
 #| label: load-packages
@@ -245,6 +241,17 @@ gss_subset <- tidydata %>%
 ```
 
 ```{r}
+#| label: calculate-MeanFear
+
+overall_fear <- gss_subset %>% 
+  mutate(fear = case_when(fear == "no" ~ "0",
+                                 fear == "yes" ~ "1")) %>% 
+  select(fear)
+mean_fear <- mean(as.numeric(overall_fear$fear, na.rm=TRUE))
+
+```
+
+```{r}
 #| label: mice-imputation
 #| eval: false
 
@@ -262,9 +269,11 @@ save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 ```
 
-\newpage
+# Results
 
-# Tables and Figures
+In the absence of running models, in this section we will discuss descriptive statistics through a series of tables and plots. We seek to show how the experience of fear differed across different measures of individual-level and community-level characteristics. To begin with, across our sample of 2318 cases, mean fear was calculated at `mean_fear`.
+
+First, we examined how fear is experienced across race and gender.  As @tbl-FearRaceSex shows, Transgender and Female respondents had higher mean fear rate than respondents that identified as Male. Particularly, respondents that were Transgender expressed greater fear, but this may be indicative of sample representation. For example, only one respondent identified as both Hispanic and Transgender, and since they responded affirmative to the question, this finding is heavily skewed. When looking by race, whites were the group with the lowest mean fear and Asians were the group with the highest. 
 
 ```{r}
 #| label: tbl-FearRaceSex
@@ -294,6 +303,7 @@ gss_subset %>%
         digits = 3) %>% 
   kableExtra::row_spec(0:6, background = "white") 
 ```
+@fig-FearRaceGender does a good job at plotting this relationship. 
 
 ```{r}
 #| label: fig-FearRaceGender
@@ -321,8 +331,10 @@ gss_subset %>%
 
 ```
 
+Moving on to measures of social embeddedness, we examined fear across degrees of religious participation, degree of happiness and health, residential diversity, and sexual activity. Regarding religious participation, we did not discern any clear pattern, as @fig-FearReligiousPart displays below. 
+
 ```{r}
-#| label: fig-FearRelgiousPart
+#| label: fig-FearReligiousPart
 #| fig-cap: Bar graph showing the percentage of respondants, by degree of participation in religious activities, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
 gss_subset %>% 
@@ -344,6 +356,8 @@ gss_subset %>%
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
 ```
+
+Next, looking at measures of Happiness and Health, we found that generally as happiness and health increase, social fear decreases. This is shown in @fig-FearHappiness and @fig-FearHealth.  
 
 ```{r}
 #| label: fig-FearHappiness
@@ -369,6 +383,31 @@ gss_subset %>%
 ```
 
 ```{r}
+#| label: fig-FearHealth
+#| fig-cap: Bar graph showing the percentage of respondants, by health levels, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+
+gss_subset %>% 
+  filter(!is.na(health)) %>% 
+  group_by(health) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = health, y = prop, fill = health)) +
+  geom_col() + 
+  scale_fill_brewer(palette = "PuRd") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Health Level",
+       subtitle = "Is social fear influenced by health?", 
+       x = "Health Level",
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = "none") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+```
+
+Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear. 
+
+```{r}
 #| label: fig-FearNeighborhood
 #| fig-cap: Bar graph showing the percentage of respondants, based on race and neighborhood diversity, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
 
@@ -392,28 +431,7 @@ gss_subset %>%
   guides(fill = guide_legend(title = "Residential Diversity")) 
 ```
 
-```{r}
-#| label: fig-FearHealth
-#| fig-cap: Bar graph showing the percentage of respondants, by health levels, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
-
-gss_subset %>% 
-  filter(!is.na(health)) %>% 
-  group_by(health) %>% 
-  summarize(fear = sum(fear == "yes"), 
-            n = n(),
-            prop = fear/n) %>% 
-  ggplot(aes(x = health, y = prop, fill = health)) +
-  geom_col() + 
-  scale_fill_brewer(palette = "PuRd") +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Social Fear by Health Level",
-       subtitle = "Is social fear influenced by health?", 
-       x = "Health Level",
-       y = "Percentage of Respondents who Expressed Fear") +
-  theme_bw() +
-  guides(fill = "none") +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-```
+Lastly, we looked at sexual activity as a marker of social fear as represented in @fig-FearPartnersGender.
 
 ```{r}
 #| label: fig-FearPartnersGender
@@ -439,7 +457,7 @@ gss_subset %>%
   guides(fill = guide_legend(title = "Gender")) 
 
 ```
+# Discussion
 
 \newpage
-
 # References
