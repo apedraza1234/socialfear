@@ -9,7 +9,7 @@
 <meta name="author" content="Alejandra Pedraza">
 <meta name="author" content="W. Jamie Yang">
 
-<title>Social Conditions of Fear</title>
+<title>The Social Conditioning of Fear</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>/*!
@@ -3236,17 +3255,9 @@ border: 0;
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  <li><a href="#appendices" id="toc-appendices" class="nav-link" data-scroll-target="#appendices">Appendices</a>
-  <ul class="collapse">
-  <li><a href="#appendix-1-codebook" id="toc-appendix-1-codebook" class="nav-link" data-scroll-target="#appendix-1-codebook">Appendix 1: Codebook</a>
-  <ul class="collapse">
-  <li><a href="#dependent-variable" id="toc-dependent-variable" class="nav-link" data-scroll-target="#dependent-variable">Dependent Variable</a></li>
-  <li><a href="#independent-variables" id="toc-independent-variables" class="nav-link" data-scroll-target="#independent-variables">Independent Variables</a></li>
-  </ul></li>
-  <li><a href="#appendix-ii-data-cleaning" id="toc-appendix-ii-data-cleaning" class="nav-link" data-scroll-target="#appendix-ii-data-cleaning">Appendix II: Data Cleaning</a></li>
-  </ul></li>
+  <li><a href="#data-script" id="toc-data-script" class="nav-link" data-scroll-target="#data-script">Data Script</a></li>
   <li><a href="#tables-and-figures" id="toc-tables-and-figures" class="nav-link" data-scroll-target="#tables-and-figures">Tables and Figures</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
 </div>
@@ -3256,7 +3267,7 @@ border: 0;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Social Conditions of Fear</h1>
+<h1 class="title">The Social Conditioning of Fear</h1>
 </div>
 
 
@@ -3286,50 +3297,27 @@ border: 0;
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
+<p>I’m leaving myself a note here to figure out how to do word count in a Quarto document. This will allow me to directly write in the qmd file and save the trouble of writing elsewhere like a word document and pasting things here.</p>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
-</section>
-<section id="results" class="level1">
-<h1>Results</h1>
-</section>
-<section id="discussion" class="level1">
-<h1>Discussion</h1>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="references" class="level1">
-<h1>References</h1>
-<div style="page-break-after: always;"></div>
-</section>
-<section id="appendices" class="level1">
-<h1>Appendices</h1>
-<section id="appendix-1-codebook" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-1-codebook">Appendix 1: Codebook</h2>
-<section id="dependent-variable" class="level3">
-<h3 class="anchored" data-anchor-id="dependent-variable">Dependent Variable</h3>
-<ul>
-<li><strong>fear</strong>: Is there any area right around here–that is, within a mile–where you would be afraid to walk alone at night?</li>
-</ul>
-</section>
-<section id="independent-variables" class="level3">
-<h3 class="anchored" data-anchor-id="independent-variables">Independent Variables</h3>
-<section id="individual-level" class="level4">
-<h4 class="anchored" data-anchor-id="individual-level">Individual-Level</h4>
+<p>This study draws data from the General Social Survey (GSS). The GSS is a nationally representative interview-based survey that has collected longitudinal data since 1972. The GSS contains questions on demographics, behaviors, attitudes, civil liberties, crime and violence, intergroup tolerance, morality, national spending priorities, psychological well-being, social mobility, stress, and traumatic events. Our study is limited to data collected during the 2022 wave and we draw primarily on demographic and well-being variables.</p>
+<p>Our dependent variable is coded as <strong>fear</strong> by the GSS. Respondents were asked, “<em>Is there any area right around here–that is, within a mile–where you would be afraid to walk alone at night</em>?” During the 2022 wave, there were 3,544 answers coded as follows: 878 = yes, 1440 = no, and 1226 = NA. Notably, the GSS codes missing values with multiple indicators–“.i: Inapplicable,” “.n: No answer,” “.d: Do not Know/Cannot Choose,” and “.s: Skipped on Web.” For the purposes of our preliminary study, we coded all missing data as NA. Furthermore, we applied fixed removal of NAs for our dependent variable and we ran mice imputations for all other variables to create a more robust dataset that is necessary for further modeling.</p>
+<p>Our control and independent variables are representative of two different dimensions we sought to capture. The first dimension is individual-level or identity characteristics:</p>
 <ul>
 <li><p><strong>born</strong>: Were you born in this country?</p></li>
 <li><p><strong>age</strong></p></li>
-<li><p><strong>sexnow1</strong>: Do you describe yourself as male, female, or transgender? <em>This is self-described gender.</em></p></li>
-<li><p><strong>sex</strong>: Code respondent’s sex (<em>This is gender presentation as interpreted by the interviewer).</em></p></li>
+<li><p><strong>sexnow1</strong>: Do you describe yourself as male, female, or transgender?</p></li>
+<li><p><strong>sex</strong>: Code respondent’s sex</p></li>
 <li><p><strong>sexornt</strong>: Which of the following best describes you?</p></li>
-<li><p><strong>racerank1</strong>: If you had to choose, which of these races do you identify most with? <em>Kept this race variable here instead of “race” because it allows more heterogeneity within group.</em></p></li>
+<li><p><strong>racerank1</strong>: If you had to choose, which of these races do you identify most with?</p></li>
 <li><p><strong>hispanic</strong>: Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?</p></li>
 <li><p><strong>degree</strong>: Respondent’s degree.</p></li>
 <li><p><strong>uscitzn</strong>: Are you a US citizen?</p></li>
 <li><p><strong>dwelown</strong>: (Do you/Does your family) own your (home/apartment), pay rent, or what?</p></li>
 </ul>
-</section>
-<section id="community-level" class="level4">
-<h4 class="anchored" data-anchor-id="community-level">Community-Level</h4>
+<p>Informed by theory, race is an important co-variate for our models as racialization serves to structure the daily lives of those deemed non-white and their sense of belonging <span class="citation" data-cites="bonilla-silva2022 omi2015">(<a href="#ref-bonilla-silva2022" role="doc-biblioref">Bonilla-Silva 2022</a>; <a href="#ref-omi2015" role="doc-biblioref">Omi and Winant 2015</a>)</span>. First, we sought to create a combined race variable from the variables “race” and “hispanic.” After looking at the data, we saw that the categories for the race variable were “Black, White, Other.” This does not provide the control we need as it omits . So, we opted to use the “racerank1” variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.</p>
+<p>The second dimension we sought to capture was community-level characteristics, i.e., the social location of individuals. For this dimension, we drew on the following variables:</p>
 <ul>
 <li><p><strong>attend</strong>: How often do you attend religious services?</p></li>
 <li><p><strong>raclive</strong>: Are there any (“whites” for black respondents, “blacks” for non-black respondents) living in this neighborhood now?</p></li>
@@ -3341,10 +3329,15 @@ border: 0;
 <li><p><strong>partnrs5</strong>: since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?</p></li>
 </ul>
 </section>
+<section id="results" class="level1">
+<h1>Results</h1>
 </section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<div style="page-break-after: always;"></div>
 </section>
-<section id="appendix-ii-data-cleaning" class="level2">
-<h2 class="anchored" data-anchor-id="appendix-ii-data-cleaning">Appendix II: Data Cleaning</h2>
+<section id="data-script" class="level1">
+<h1>Data Script</h1>
 <div class="cell">
 <details>
 <summary>View Code</summary>
@@ -3367,8 +3360,6 @@ border: 0;
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(age, sex, sexnow1, sexornt, degree, attend, raclive, happy, health, helpful, fair, trust, fear, partnrs5, racerank1, uscitzn, dwelown) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The GSS codes missing data as either “.i: Inapplicable”, “.n: No answer”, “.d: Do not Know/Cannot Choose”, and “.s: Skipped on Web. For the purposes of this project, we are considering all of the above as missing values. For our next steps, we need to reexamine this decision as”.i: Inapplicable” is a valid skip and needs to be accounted for accordingly.</p>
-<p>In the following code chunk, we recode the aforementioned indicators as NAs. This is a necessary first step to run mice imputations.</p>
 <div class="cell">
 <details>
 <summary>View Code</summary>
@@ -3379,9 +3370,6 @@ border: 0;
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span><span class="fu">ifelse</span>(. <span class="sc">%in%</span> missing_vec, <span class="cn">NA_character_</span>, .)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>First we filtered out all NAs from our dependent variable, fear.</p>
-<p>Informed by theory, race/ ethnicity is an important covariate for our models. First, we sought to create a combined race variable from the variables “race” and “hispanic.” After looking at the data, we saw that the options for the race variable were “Black, White, Other.” This does not provide the control we need. So, we opted to use the “racerank1” variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious, however they are the standard with quantitative data.</p>
-<p>Then we factored and recoded selected variables for our analysis. It was important to not have any variables as character strings, otherwise mice imputations would not work.</p>
 <div class="cell">
 <details>
 <summary>View Code</summary>
@@ -3475,7 +3463,6 @@ border: 0;
 <span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Depends&quot;</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Once our data was tidy, we selected the variables we would be using for our analysis.</p>
 <div class="cell">
 <details>
 <summary>View Code</summary>
@@ -3483,7 +3470,6 @@ border: 0;
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, sexnow1, racecombo, uscitzn, degree, attend, raclive, happy, health, partnrs5, fear) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>To deal with the large amount of missing values, we ran mice imputations. In the code below we create a new dataset with the imputed values. We will use this dataset in our next stage to run various models.</p>
 <div class="cell">
 <details>
 <summary>View Code</summary>
@@ -3501,7 +3487,6 @@ border: 0;
 </details>
 </div>
 <div style="page-break-after: always;"></div>
-</section>
 </section>
 <section id="tables-and-figures" class="level1">
 <h1>Tables and Figures</h1>
@@ -3772,9 +3757,21 @@ border: 0;
 </div>
 </div>
 </div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="references" class="level1 unnumbered">
+
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bonilla-silva2022" class="csl-entry" role="listitem">
+Bonilla-Silva, Eduardo. 2022. <em>Racism Without Racists: Colorblind Racism and the Persistence of Racial Inequality in America</em>. 6th ed. Rowman &amp; Littlefield Publishing Group.
+</div>
+<div id="ref-omi2015" class="csl-entry" role="listitem">
+Omi, Michael, and Howard Winant. 2015. <em>Racial Formation in the United States</em>. Third edition. Routledge/Taylor &amp; Francis Group.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
