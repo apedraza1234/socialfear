@@ -341,7 +341,7 @@ gss_subset %>%
 
 ```
 
-Moving on to measures of social embeddedness, we examined fear across degrees of religious participation, degree of happiness and health, residential diversity, and sexual activity. Regarding religious participation, we did not discern any clear pattern, as @fig-FearReligiousPart displays below.
+Moving on to measures of social embeddedness, we examined fear across degrees of religious participation, degree of happiness and health, residential diversity, and sexual activity. Regarding religious participation, we did not discern any clear pattern. Across all frequencies of religious activity attendance, ranging from "Never" to "Nearly every week", the percentages of respondents who reported fear at night were all close to 40%, as @fig-FearReligiousPart displays below. The one outlier is attending religious services "about once a month", which we have no theoretical backings for and is likely attributable to sampling issues. 
 
 ```{r}
 #| label: fig-FearReligiousPart
