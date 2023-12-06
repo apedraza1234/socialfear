@@ -29,9 +29,11 @@ link-citations: true
 
 This is an exploratory project for a dissertation chapter idea that one of the co-authors wants to pursue. With descriptive statistics, we are interested in investigating the inequalities in terms of fear of walking alone at night among US adult population and mapping out the patterns of disparities along the axes of race, gender, sexual orientation, citizenship status, and education. 
 
-Individuals' report of fear have been shown to relate to a wide range of contextual factors, such as neighborhood composition and community crime rates [@hale1996; @warr1990], and individual sociodemographic characteristics, such as gender, sexual orientation, income, age, health condition, and immigration status [@lagrange1989; @otis2007; @madriz2023].
+Individuals' report of fear have been shown to relate to a wide range of contextual factors, such as neighborhood composition and community crime rates [@hale1996; @warr1990], and individual sociodemographic characteristics, such as gender, sexual orientation, income, age, health condition, and immigration status [@lagrange1989; @otis2007; @madriz2023]. To be more specific, this body of scholarship has found spatial and neighborhood characteristics have a significant impact on individuals' self-reported fear of crime, as those who live in areas with high levels of community disorder have reported more fear than those who do not live in such communities [@rountree1996]. Also, due to the popularity density in urban areas, residents of these areas have reported higher levels of fear at night, potentially because of feelings of alienation and unfamiliarity among residents [@bennett1994].
 
-Especially, the role of gender in fear of crime has been well documented in victimization research [@stanko1993; @snedker2006; @schnitzer2010]. 
+Especially, the role of gender in fear of crime has been well documented in victimization research [@cops2011; @snedker2006; @schnitzer2010]. 
+
+[@stanko1993]
 
 
 # Methods
