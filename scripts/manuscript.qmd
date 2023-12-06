@@ -69,7 +69,7 @@ The second dimension we sought to capture was community-level characteristics th
 
 These variables seek to account for respondent's social embeddedness and networks of support. Specifically, **raclive** is an important variable to consider as it accounts for neighborhood composition, in the absence of a neighborhood dissimilarity index. While this variable only looks at Black-white racial composition, it provides a good benchmark to examine broader racial antagonisms. Research has documented the associated fears white experience when Blacks or people of other racial backgrounds move into their neighborhood [@lacayo2017; @massey2020].
 
-The third dimension we included were on :
+The third dimension we considered were individual-level health-related and  attitudinal variables. Good mental and physical health status is positively correlated with individuals' evaluation of their life conditions and affects how likely individuals are to report positive emotions about their life [@dwyer2017]. Additionally, social capital--such as levels of interpersonal trust and norms of reciprocity and mutual aid--is believed to play an important role in explaining variations in health status across geographic localities [@kawachi1999]. Therefore, we included the following variables that capture respondents' self-reported health status and assessment of interpersonal social climate: 
 
 -   **happy**: Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
 
