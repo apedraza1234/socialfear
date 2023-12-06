@@ -367,7 +367,33 @@ gss_subset %>%
 
 ```
 
-Next, looking at measures of Happiness and Health, we found that generally as happiness and health increase, social fear decreases. This is shown in @fig-FearHappiness and @fig-FearHealth.
+Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear. This indicates the sentiment that respondents felt safer and more comfortable living in neighborhoods where other residents share their racial identities, which speaks to 
+
+```{r}
+#| label: fig-FearNeighborhood
+#| fig-cap: Bar graph showing the percentage of respondants, based on race and neighborhood diversity, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
+
+gss_subset %>% 
+  filter(!is.na(racecombo)) %>% 
+  filter(racecombo != "Other") %>% 
+  filter(!is.na(raclive)) %>%  
+  group_by(racecombo, raclive) %>% 
+  summarize(fear = sum(fear == "yes"), 
+            n = n(),
+            prop = fear/n) %>% 
+  ggplot(aes(x = racecombo, y = prop)) +
+  geom_col(aes(fill = raclive), position = "dodge") + 
+  scale_fill_brewer(palette = "Set2") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Social Fear by Race and Neighborhood Diversity",
+       subtitle = "Is social fear influenced by respondent's race and their neighborhood's diversity?",
+       x = "Race",
+       y = "Percentage of Respondents who Expressed Fear") +
+  theme_bw() +
+  guides(fill = guide_legend(title = "Residential Diversity")) 
+```
+
+What's more, looking at measures of individual-level characteristics like Happiness and Health, we found that generally as happiness and health increase, social fear decreases. This is shown in @fig-FearHappiness and @fig-FearHealth. This finding resonates with recent scholarship on the direct relationship between fear of crime and subject well-being that higher levels of happiness and better physical health are associated with lower levels of fear [@krulichova2018]. 
 
 ```{r}
 #| label: fig-FearHappiness
@@ -413,32 +439,6 @@ gss_subset %>%
   theme_bw() +
   guides(fill = "none") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-```
-
-Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear.
-
-```{r}
-#| label: fig-FearNeighborhood
-#| fig-cap: Bar graph showing the percentage of respondants, based on race and neighborhood diversity, that responded affirmative to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night?
-
-gss_subset %>% 
-  filter(!is.na(racecombo)) %>% 
-  filter(racecombo != "Other") %>% 
-  filter(!is.na(raclive)) %>%  
-  group_by(racecombo, raclive) %>% 
-  summarize(fear = sum(fear == "yes"), 
-            n = n(),
-            prop = fear/n) %>% 
-  ggplot(aes(x = racecombo, y = prop)) +
-  geom_col(aes(fill = raclive), position = "dodge") + 
-  scale_fill_brewer(palette = "Set2") +
-  scale_y_continuous(labels = scales::percent) +
-  labs(title = "Social Fear by Race and Neighborhood Diversity",
-       subtitle = "Is social fear influenced by respondent's race and their neighborhood's diversity?",
-       x = "Race",
-       y = "Percentage of Respondents who Expressed Fear") +
-  theme_bw() +
-  guides(fill = guide_legend(title = "Residential Diversity")) 
 ```
 
 Lastly, we looked at sexual activity as a marker of social fear as represented in @fig-FearPartnersGender.
