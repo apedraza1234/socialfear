@@ -29,12 +29,11 @@ link-citations: true
 
 Individuals' report of fear have been shown to relate to a wide range of contextual factors, such as neighborhood composition and community crime rates [@hale1996; @warr1990], and individual sociodemographic characteristics, such as gender, sexual orientation, income, age, health condition, and immigration status [@lagrange1989; @otis2007; @madriz2023]. To be more specific, this body of scholarship has found spatial and neighborhood characteristics have a significant impact on individuals' self-reported fear of crime, as those who live in areas with high levels of community disorder have reported more fear than those who do not live in such communities [@rountree1996]. Also, due to the popularity density in urban areas, residents of these areas have reported higher levels of fear at night, potentially because of feelings of alienation and unfamiliarity among residents [@bennett1994].
 
-Especially, the role of gender in fear of crime has been well documented in victimization research [@cops2011; @snedker2006; @schnitzer2010; @stanko1993]. Early scholarship emphasized that women tend to report more fear than men  [@stanko1990], with some initial research investigating the seeming disjuncture between women's fear and their actual experiences of victimization, as women were often found to report high levels of fear for crimes that they were at relatively little risk of experiencing [@hough1983]. Subsequent studies suggested that women's fear should be understood in the context of the many potential threats that women confront, including their heightened risk of sexual assault [@stanko1993]. Therefore, fear at night is gradually perceived as a manifestation of gender-based violence with sexual assault implications, though acknowledging that sexual assault is merely one among many potential forms of crime. However, the more insidious and everyday forms of harassment are frequently not captured by common survey instruments--they regularly privilege the more obvious or extreme forms of victimization and fail to account for the routine forms of violence that women confront [@moran2003]. We focus our attention on this less intrusive but omnipresent form of everyday violence and examine the unequal effects it has on different populations. We ask: what groups of people are more likely to have experienced fear of walking alone at night in their neighborhood?
+Especially, the role of gender in fear of crime has been well documented in victimization research [@cops2011; @snedker2006; @schnitzer2010; @stanko1993]. Early scholarship emphasized that women tend to report more fear than men [@stanko1990], with some initial research investigating the seeming disjuncture between women's fear and their actual experiences of victimization, as women were often found to report high levels of fear for crimes that they were at relatively little risk of experiencing [@hough1983]. Subsequent studies suggested that women's fear should be understood in the context of the many potential threats that women confront, including their heightened risk of sexual assault [@stanko1993]. Therefore, fear at night is gradually perceived as a manifestation of gender-based violence with sexual assault implications, though acknowledging that sexual assault is merely one among many potential forms of crime. However, the more insidious and everyday forms of harassment are frequently not captured by common survey instruments----they regularly privilege the more obvious or extreme forms of victimization and fail to account for the routine forms of violence that women confront [@moran2003]. We focus our attention on this less intrusive but omnipresent form of everyday violence and examine the unequal effects it has on different populations. We ask: what groups of people are more likely to have experienced fear of walking alone at night in their neighborhood?
 
-Historically, despite all the aforementioned contexts and individual-level characteristics being identified as salient to individuals’ self-reported fear at night, they were usually studied in isolation. Notably, scholars have tended to focus either on individual-level characteristics, such as race and sexual orientation, or on physically defined contexts like schools and neighborhoods and social contexts like networks, families, with little consideration of the joint contributions of multiple contexts and multilevel effects simultaneously. Instead, we hypothesize that, similar to "the social determinants of health" [@krieger2001], there exist the social determinants of fear--intersectional social positionalities impact the likelihood of individuals' sense of threat from social surroundings, i.e., fear at night. 
+Historically, despite all the aforementioned contexts and individual-level characteristics being identified as salient to individuals' self-reported fear at night, they were usually studied in isolation. Notably, scholars have tended to focus either on individual-level characteristics, such as race and sexual orientation, or on physically defined contexts like schools and neighborhoods and social contexts like networks, families, with little consideration of the joint contributions of multiple contexts and multilevel effects simultaneously. To fill this gap in knowledge, we hypothesize that, similar to "the social determinants of health" [@krieger2001], there exist the social determinants of fear----intersectional social positionalities impact the likelihood of individuals' sense of threat from social surroundings, i.e., fear at night.
 
-This is an exploratory project for a dissertation chapter idea that one of the co-authors wants to pursue. With descriptive statistics, we are interested in investigating the inequalities in terms of fear of walking alone at night among US adult population and mapping out the patterns of disparities along the axes of race, gender, sexual orientation, citizenship status, and education. We use the 2022 data from the General Social Survey (GSS) and the data science tools from EDLD 651 class to delineate the data distribution and basic correlations between "fear of walkign alone at night" and our other variables of interest. 
-
+This is an exploratory project for a dissertation chapter idea that one of the co-authors wants to pursue. With descriptive statistics, we are interested in investigating the inequalities in terms of fear of walking alone at night among the US adult population and mapping out the patterns of disparities along the axes of race, gender, sexual orientation, citizenship status, and education. We use the 2022 data from the General Social Survey (GSS) and the data science tools from EDLD 651 class to delineate the data distribution and basic correlations between "fear of walkign alone at night" and our other variables of interest.
 
 # Methods
 
@@ -46,17 +45,17 @@ Our control and independent variables are representative of two different dimens
 
 -   **born**: Were you born in this country?
 
--   **age**: Respondent's age in numeric values. 
+-   **age**: Respondent's age in numeric values.
 
 -   **sexnow1**: Do you describe yourself as male, female, or transgender?
 
--   **sexornt**: Which of the following best describes you?
+-   **sexornt**: Which of the following best describes you? [1] "Gay, lesbian, or homosexual" [2] Bisexual [3] Heterosexual or straight [99] "Refused"
 
 -   **racerank1**: If you had to choose, which of these races do you identify most with?
 
 -   **hispanic**: Are you Spanish, Hispanic, or Latino/Latina? IF YES: Which group are you from?
 
--   **degree**: Respondent's degree.
+-   **degree**: Respondent's (highest educational) degree.
 
 -   **uscitzn**: Are you a US citizen?
 
@@ -64,9 +63,9 @@ Our control and independent variables are representative of two different dimens
 
 Informed by theory, race is an important co-variate for our models as racialization serves to structure the daily lives of individuals based on where they fall on the Black-white spectrum, their opportunities, and their sense of belonging [@bonilla-silva2022; @omi2015]. First, we sought to create a combined race variable from the variables **race** and **hispanic**. After looking at the data, we saw that **race** was coded as "Black, White, or Other." This does not provide the control we need as it omits those in the "racial middle" that are more likely to identify with a panethnic label and reject the Black-white binary [@mora2014; @obrien2008; @rodriguez2000]. Instead, we opted to use the **racerank1** variable, because participants were able to select from 16 different options: White, Black or African-American, Asian Indian, Chinese, Filipino, Japanese, Korean, Vietnamese, Other, Asian, Guamanian or Chamorro, Samoan, Other Pacific Islander, Some other race, and Hispanic. We factored and recoded these to White, Black, Hispanic, Asian, NHPI (Native Hawaiian or Pacific Islander), AIAN (American Indian, Alaska Native), and Other. We understand that these categories are problematic and contentious [@haney-lópez2006; @dowling2014], however they are the standard with quantitative data.
 
-Similarly, gender was a contentious variable to account for. Although the GSS has several questions aimed at capturing respondent's gender, we found them to be lacking in breadth. For example, the GSS codes **sex** within a Male/Female binary based solely on interviewer discretion. Ultimately, we opted to use **sexnow1** since it was the variable that most closely captured self-described gender. However, it remains problematic as respondents were only provided four choice: Male, Female, Transgender, and None of these. Out of 2306 cases, only 10 were coded as Transgender and 9 as None of these. Therefore, this is by no means a representative sample on gender minority population. The fact that the GSS data is primarily collected through in-person field interviews increases the possibility that minority-identifying individuals may not disclose their accurate identity information to avoid being associated with negative stereotypes. 
+Similarly, gender was a contentious variable to account for. Although the GSS has several questions aimed at capturing respondent's gender, we found them to be lacking in breadth. For example, the GSS codes **sex** within a Male/Female binary based solely on interviewer discretion. Ultimately, we opted to use **sexnow1** since it was the variable that most closely captured self-described gender. However, it remains problematic as respondents were only provided four choice: Male, Female, Transgender, and None of these. Out of 2306 cases, only 10 were coded as Transgender and 9 as None of these. Therefore, this is by no means a representative sample on gender minority population. The fact that the GSS data is primarily collected through in-person field interviews increases the possibility that minority-identifying individuals may not disclose their accurate identity information to avoid being associated with negative stereotypes.
 
-Another important variable we sought to control for was citizenship status, since citizenship status and the associated stigma of illegality and threat of deportation have been found to increase fear in daily life [@golash-boza2015; @kline2019]. However, GSS data is not conducive to controlling for this variable due to the large number of NAs. Out of 2318 cases, 2164 were coded as NAs. In future work, we will pursue data options that allow the analysis ton include citizenship status. 
+Another important variable we sought to control for was citizenship status, since citizenship status and the associated stigma of illegality and threat of deportation have been found to increase fear in daily life [@golash-boza2015; @kline2019]. However, GSS data is not conducive to controlling for this variable due to the large number of NAs. Out of 2318 cases, 2164 were coded as NAs. In future work, we will pursue data options that allow the analysis ton include citizenship status.
 
 The second dimension we sought to capture was community-level characteristics that would potentially affect one's sense of safety. For this dimension, we drew on the following variables:
 
@@ -76,7 +75,7 @@ The second dimension we sought to capture was community-level characteristics th
 
 These variables seek to account for respondent's social embeddedness and networks of support. Specifically, **raclive** is an important variable to consider as it accounts for neighborhood composition, in the absence of a neighborhood dissimilarity index. While this variable only looks at Black-white racial composition, it provides a good benchmark to examine broader racial antagonisms. Research has documented the associated fears white experience when Blacks or people of other racial backgrounds move into their neighborhood [@lacayo2017; @massey2020].
 
-The third dimension we considered were individual-level health-related and  attitudinal variables. Good mental and physical health status is positively correlated with individuals' evaluation of their life conditions and affects how likely individuals are to report positive emotions about their life [@dwyer2017]. Additionally, social capital--such as levels of interpersonal trust and norms of reciprocity and mutual aid--is believed to play an important role in explaining variations in health status across geographic localities [@kawachi1999]. Therefore, we included the following variables that capture respondents' self-reported health status and assessment of interpersonal social climate: 
+The third dimension we considered were individual-level health-related and attitudinal variables. Good mental and physical health status is positively correlated with individuals' evaluation of their life conditions and affects how likely individuals are to report positive emotions about their life [@dwyer2017]. Additionally, social capital----such as levels of interpersonal trust and norms of reciprocity and mutual aid--is believed to play an important role in explaining variations in health status across geographic localities [@kawachi1999]. Therefore, we included the following variables that capture respondents' self-reported health status and assessment of interpersonal social climate:
 
 -   **happy**: Taken all together, how would you say things are these days--would you say that you are very happy, pretty happy, or not too happy?
 
@@ -89,9 +88,6 @@ The third dimension we considered were individual-level health-related and  atti
 -   **trust**: Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?
 
 -   **partnrs5**: since February/March 2015, and including the past 12 months, how many sex partners have you had in that five year period?
-
-
-
 
 ## Data Script
 
@@ -279,7 +275,6 @@ tidydata_complete <- as.mids(temp5)
 save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 ```
-
 
 # Results
 
@@ -471,24 +466,8 @@ gss_subset %>%
 
 ```
 
-
 # Discussion
-
-
-
-
 
 \newpage
 
 # References
-
-
-
-
-
-
-
-
-
-
-
