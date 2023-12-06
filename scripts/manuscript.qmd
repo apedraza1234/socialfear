@@ -282,8 +282,6 @@ In the absence of running models, in this section we will discuss descriptive st
 
 First, we examined how fear is experienced across race and gender. As @tbl-FearRaceSex shows, Transgender and Female respondents had higher mean fear rate than respondents who identified as Male. Particularly, respondents that were Transgender expressed greater fear, but this may be indicative of sample representation. For example, only one respondent identified as both Hispanic and Transgender, and since they responded affirmative to the question, this finding is heavily skewed. However, it's important to note that Transgender individuals have been subject to more frequent and more severe forms of sexual violence and thus, experiencing more fear related to gender-based crime and engaging in more gendered tactics to protect themselves [@schilt2009]. 
 
-When looking by race, whites were the group with the lowest mean fear and Asians were the group with the highest. This finding is consistent with the hypothesis that the most privileged social group in terms of race has the lowest level of fear. 
-
 ```{r}
 #| label: tbl-FearRaceSex
 #| tbl-cap: Mean fear by race and gender calculated from respondents affirmative answer to GSS question, Is there any area right around here--that is, within a mile--where you would be afraid to walk alone at night? 
@@ -312,6 +310,8 @@ gss_subset %>%
         digits = 3) %>% 
   kableExtra::row_spec(0:6, background = "white") 
 ```
+
+When looking by race, whites were the group with the lowest mean fear and Asians were the group with the highest. This finding is aligned with the hypothesis that the most privileged social group in terms of race has the lowest level of fear. Additionally, our visualizations show the compounding effects of both race and gender----consistent with the framework of intersectionality [@mccall2005]----that the rates of reporting fear at night is higher when the group is marginalized both racially and gender-wise. For example, except for the Transgender respondents, NHPI Females, Asian Females and AIAN females reported the highest rates of fear, while White males reported the lowest rates of fear. 
 
 @fig-FearRaceGender does a good job at plotting this relationship.
 
