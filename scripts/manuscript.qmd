@@ -367,7 +367,7 @@ gss_subset %>%
 
 ```
 
-Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear. This indicates the sentiment that respondents felt safer and more comfortable living in neighborhoods where other residents share their racial identities, which speaks to 
+Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear. This indicates the sentiment that respondents felt safer and more comfortable living in neighborhoods where other residents share their racial identities, which speaks to the reality of racial residential segregation and its impact on health [@charles2003; @williams2016]. 
 
 ```{r}
 #| label: fig-FearNeighborhood
@@ -441,7 +441,7 @@ gss_subset %>%
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
-Lastly, we looked at sexual activity as a marker of social fear as represented in @fig-FearPartnersGender.
+Lastly, we looked at sexual activity as a marker of social fear as represented in @fig-FearPartnersGender. Overall, it could be implied that having more sexual partners is positively associated with experiencing fear of walking alone at night, especially for indivuals who reported having had over 20 sexual partners in the last 5 years. A potential explanation is that having more than 20 sexual partners is indicative of a more sexually exploratory and adventurous lifestyle, which brings more exposure to unfamiliar social contacts and environments. We take notice that, interestingly, Females with less than 5 sexual partners in the last 5 years reported lower rates of fear at night compared to Females who reported having 0 sexual partneres. Our interpretation is that those in the "Less than 5 (sexual partners)" group are more likely to have had stable, longer-term sexual relationships, which may have brought a certain sense of security and even cohabiting partners. 
 
 ```{r}
 #| label: fig-FearPartnersGender
