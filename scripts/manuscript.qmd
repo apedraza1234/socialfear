@@ -3,7 +3,7 @@ title: "The Social Conditioning of Fear"
 author:
   - Alejandra Pedraza
   - W. Jamie Yang
-abstract: "Fear at night has been perceived as a form of gender-based violence with sexual assault implications. However, this more insidious and everyday forms of harassment are frequently not captured by common survey instruments. In this study, we investigate the inequalities in terms of fear of walking alone at night among the US adult population and mapping out the patterns of disparities along the axes of race, gender, sexual orientation, citizenship status, and education. We use the 2022 data from the General Social Survey (GSS) and the data science tools from EDLD 651 class to delineate the data distribution and basic correlations between fear of walking alone at night and our other variables of interest. Our findings suggest that fear at night differs by race, gender, subjective health, and neighborhood diversity. Consistent with previous research, women were also more likely than men to report fear at night. Importantly, groups with multiply marginalized social identities are likely to report higher rates of fear at night." # this is where abstract should be pasted 
+abstract: "Fear at night has been perceived as a form of gender-based violence with sexual assault implications. However, this more insidious and everyday forms of harassment are frequently not captured by common survey instruments. In this study, we investigate the inequalities in terms of fear of walking alone at night among the US adult population and mapping out the patterns of disparities along the axes of race, gender, sexual orientation, citizenship status, and education. We use the 2022 data from the General Social Survey (GSS) and the data science tools from EDLD 651 class to delineate the data distribution and basic correlations between fear of walking alone at night and our other variables of interest. Our findings suggest that fear at night differs by race, gender, subjective health, and neighborhood diversity. Consistent with previous research, women were also more likely than men to report fear at night. Importantly, groups with multiply marginalized social identities are likely to report higher rates of fear at night." 
 format: html
 wordcount-html: default
 toc: true
@@ -12,7 +12,7 @@ toc-title: Table of Contents
 highlight-style: pygments
 editor: visual
 execute:
-  eval: true # change to false before final submission
+  eval: true # if we change to false, in-line code will not run 
   echo: true
   message: false
   warning: false
@@ -278,9 +278,9 @@ save(tidydata_complete, file = "data/tidydata_complete.RData")
 
 # Results
 
-In the absence of running models, in this section we will discuss descriptive statistics through a series of tables and plots. We seek to show how the experience of fear differed across different measures of individual-level and community-level characteristics. To begin with, across our sample of 2318 cases, mean fear was calculated at `r mean(as.numeric(overall_fear$fear, na.rm=TRUE))`. One thing to note about the interpretation of this value is, because we operationalized the variable **fear** as a dichotomous variable with answers being "Yes = 1" and "No = 0", this mean value approximates "the likelihood for an individual in our sample to report the experience of fear of walking alone at night in their neighborhood". 
+In the absence of running models, in this section we will discuss descriptive statistics through a series of tables and plots. We seek to show how the experience of fear differed across different measures of individual-level and community-level characteristics. To begin with, across our sample of 2318 cases, mean fear was calculated at `r mean(as.numeric(overall_fear$fear, na.rm=TRUE))`. One thing to note about the interpretation of this value is, because we operationalized the variable **fear** as a dichotomous variable with answers being "Yes = 1" and "No = 0", this mean value approximates "the likelihood for an individual in our sample to report the experience of fear of walking alone at night in their neighborhood".
 
-First, we examined how fear is experienced across race and gender. As @tbl-FearRaceSex shows, Transgender and Female respondents had higher mean fear rate than respondents who identified as Male. Particularly, respondents that were Transgender expressed greater fear, but this may be indicative of sample representation. For example, only one respondent identified as both Hispanic and Transgender, and since they responded affirmative to the question, this finding is heavily skewed. However, it's important to note that Transgender individuals have been subject to more frequent and more severe forms of sexual violence and thus, experiencing more fear related to gender-based crime and engaging in more gendered tactics to protect themselves [@schilt2009]. 
+First, we examined how fear is experienced across race and gender. As @tbl-FearRaceSex shows, Transgender and Female respondents had higher mean fear rate than respondents who identified as Male. Particularly, respondents that were Transgender expressed greater fear, but this may be indicative of sample representation. For example, only one respondent identified as both Hispanic and Transgender, and since they responded affirmative to the question, this finding is heavily skewed. However, it's important to note that Transgender individuals have been subject to more frequent and more severe forms of sexual violence and thus, experiencing more fear related to gender-based crime and engaging in more gendered tactics to protect themselves [@schilt2009].
 
 ```{r}
 #| label: tbl-FearRaceSex
@@ -311,7 +311,7 @@ gss_subset %>%
   kableExtra::row_spec(0:6, background = "white") 
 ```
 
-When looking by race, whites were the group with the lowest mean fear and Asians were the group with the highest. This finding is aligned with the hypothesis that the most privileged social group in terms of race has the lowest level of fear. Additionally, our visualizations show the compounding effects of both race and gender----consistent with the framework of intersectionality [@mccall2005]----that the rates of reporting fear at night is higher when the group is marginalized both racially and gender-wise. For example, except for the Transgender respondents, NHPI Females, Asian Females and AIAN females reported the highest rates of fear, while White males reported the lowest rates of fear. 
+When looking by race, whites were the group with the lowest mean fear and Asians were the group with the highest. This finding is aligned with the hypothesis that the most privileged social group in terms of race has the lowest level of fear. Additionally, our visualizations show the compounding effects of both race and gender----consistent with the framework of intersectionality [@mccall2005]----that the rates of reporting fear at night is higher when the group is marginalized both racially and gender-wise. For example, except for the Transgender respondents, NHPI Females, Asian Females and AIAN females reported the highest rates of fear, while White males reported the lowest rates of fear.
 
 @fig-FearRaceGender does a good job at plotting this relationship.
 
@@ -341,7 +341,7 @@ gss_subset %>%
 
 ```
 
-Moving on to measures of social embeddedness, we examined fear across degrees of religious participation, degree of happiness and health, residential diversity, and sexual activity. Regarding religious participation, we did not discern any clear pattern. Across all frequencies of religious activity attendance, ranging from "Never" to "Nearly every week", the percentages of respondents who reported fear at night were all close to 40%, as @fig-FearReligiousPart displays below. The one outlier is attending religious services "about once a month", which we have no theoretical backings for and is likely attributable to sampling issues. 
+Moving on to measures of social embeddedness, we examined fear across degrees of religious participation, degree of happiness and health, residential diversity, and sexual activity. Regarding religious participation, we did not discern any clear pattern. Across all frequencies of religious activity attendance, ranging from "Never" to "Nearly every week", the percentages of respondents who reported fear at night were all close to 40%, as @fig-FearReligiousPart displays below. The one outlier is attending religious services "about once a month", which we have no theoretical backings for and is likely attributable to sampling issues.
 
 ```{r}
 #| label: fig-FearReligiousPart
@@ -367,7 +367,7 @@ gss_subset %>%
 
 ```
 
-Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear. This indicates the sentiment that respondents felt safer and more comfortable living in neighborhoods where other residents share their racial identities, which speaks to the reality of racial residential segregation and its impact on health [@charles2003; @williams2016]. 
+Next, looking at residential composition and race combined displayed in @fig-FearNeighborhood, we do notice a pattern where respondents living in residentially more diverse areas were more likely to respond affirmative to the question of social fear. This indicates the sentiment that respondents felt safer and more comfortable living in neighborhoods where other residents share their racial identities, which speaks to the reality of racial residential segregation and its impact on health [@charles2003; @williams2016].
 
 ```{r}
 #| label: fig-FearNeighborhood
@@ -393,7 +393,7 @@ gss_subset %>%
   guides(fill = guide_legend(title = "Residential Diversity")) 
 ```
 
-What's more, looking at measures of individual-level characteristics like Happiness and Health, we found that generally as happiness and health increase, social fear decreases. This is shown in @fig-FearHappiness and @fig-FearHealth. This finding resonates with recent scholarship on the direct relationship between fear of crime and subject well-being that higher levels of happiness and better physical health are associated with lower levels of fear [@krulichova2018]. 
+What's more, looking at measures of individual-level characteristics like Happiness and Health, we found that generally as happiness and health increase, social fear decreases. This is shown in @fig-FearHappiness and @fig-FearHealth. This finding resonates with recent scholarship on the direct relationship between fear of crime and subject well-being that higher levels of happiness and better physical health are associated with lower levels of fear [@krulichova2018].
 
 ```{r}
 #| label: fig-FearHappiness
@@ -441,7 +441,7 @@ gss_subset %>%
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
-Lastly, we looked at sexual activity as a marker of social fear as represented in @fig-FearPartnersGender. Overall, it could be implied that having more sexual partners is positively associated with experiencing fear of walking alone at night, especially for indivuals who reported having had over 20 sexual partners in the last 5 years. A potential explanation is that having more than 20 sexual partners is indicative of a more sexually exploratory and adventurous lifestyle, which brings more exposure to unfamiliar social contacts and environments. We take notice that, interestingly, Females with less than 5 sexual partners in the last 5 years reported lower rates of fear at night compared to Females who reported having 0 sexual partneres. Our interpretation is that those in the "Less than 5 (sexual partners)" group are more likely to have had stable, longer-term sexual relationships, which may have brought a certain sense of security and even cohabiting partners. 
+Lastly, we looked at sexual activity as a marker of social fear as represented in @fig-FearPartnersGender. Overall, it could be implied that having more sexual partners is positively associated with experiencing fear of walking alone at night, especially for indivuals who reported having had over 20 sexual partners in the last 5 years. A potential explanation is that having more than 20 sexual partners is indicative of a more sexually exploratory and adventurous lifestyle, which brings more exposure to unfamiliar social contacts and environments. We take notice that, interestingly, Females with less than 5 sexual partners in the last 5 years reported lower rates of fear at night compared to Females who reported having 0 sexual partneres. Our interpretation is that those in the "Less than 5 (sexual partners)" group are more likely to have had stable, longer-term sexual relationships, which may have brought a certain sense of security and even cohabiting partners.
 
 ```{r}
 #| label: fig-FearPartnersGender
@@ -470,18 +470,15 @@ gss_subset %>%
 
 # Discussion
 
-Previous research on fear at night has attended to differences between women and men, and among sexual minority populations [@meyer2014; otis2007]. This line of research, however, has not fully examined the intersectional effects of various social dimensions on fear at night, such as race, sexual orientation, gender, and community composition. To be specific, although significant gender differences have been documented [@cops2011; @stanko1990], wherein women are more likely than men to report fear, research has failed to consider the complex ways in which other social dimensions such as race may intersect with regard to such fear. 
+Previous research on fear at night has attended to differences between women and men, and among sexual minority populations [@meyer2014; otis2007]. This line of research, however, has not fully examined the intersectional effects of various social dimensions on fear at night, such as race, sexual orientation, gender, and community composition. To be specific, although significant gender differences have been documented [@cops2011; @stanko1990], wherein women are more likely than men to report fear, research has failed to consider the complex ways in which other social dimensions such as race may intersect with regard to such fear.
 
-In this project, we used nationally representative survey data to examine racial, sexual, gender, health, and community contextual differences in reports of being afraid to walk alone at night. Our findings suggest that fear at night differs by race, gender, subjective health, and neighborhood diversity. Consistent with previous research, women were also more likely than men to report fear at night. Further analyses revealed that there exists a significant interaction between race and gender in report of fear. Importantly, groups with multiply marginalized social identities are likely to report higher rates of fear at night. 
+In this project, we used nationally representative survey data to examine racial, sexual, gender, health, and community contextual differences in reports of being afraid to walk alone at night. Our findings suggest that fear at night differs by race, gender, subjective health, and neighborhood diversity. Consistent with previous research, women were also more likely than men to report fear at night. Further analyses revealed that there exists a significant interaction between race and gender in report of fear. Importantly, groups with multiply marginalized social identities are likely to report higher rates of fear at night.
 
-Our assessment of fear relies on a single measure---fear of walking alone at night---that does not explicitly ask respondents about what, in particular, they fear. Potential objects or events in question would be robbery, sexual assault, verbal harassment, or sexual orientation- or religion-based hate crimes. And with common sense, we know that people embodying different identities and self-presentations will be vulnerable to different forms of street crimes. Further research should explore the particular nature of this fear, and whether it is based on crime victimization experience or verbal harassment. 
+Our assessment of fear relies on a single measure---fear of walking alone at night---that does not explicitly ask respondents about what, in particular, they fear. Potential objects or events in question would be robbery, sexual assault, verbal harassment, or sexual orientation- or religion-based hate crimes. And with common sense, we know that people embodying different identities and self-presentations will be vulnerable to different forms of street crimes. Further research should explore the particular nature of this fear, and whether it is based on crime victimization experience or verbal harassment.
 
-Despite limitations of this study, our findings provide a good understanding of sociodemographic differences in fear at night. We uncovered an important relation between fear and disadvantaged status: racial and ethnic minorities, women, and individuals of better subjective health are more likely to report fear of victimization than their privileged counterparts. 
+Despite limitations of this study, our findings provide a good understanding of sociodemographic differences in fear at night. We uncovered an important relation between fear and disadvantaged status: racial and ethnic minorities, women, and individuals of better subjective health are more likely to report fear of victimization than their privileged counterparts.
 
-The R tools we learned from the class "EDLD 651: Intro to R" have been extremely helpful in cleaning and visualizing the data. 
-
-
-
+The R tools we learned from the class "EDLD 651: Intro to R" have been extremely helpful in cleaning and visualizing the data.
 
 \newpage
 
