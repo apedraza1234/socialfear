@@ -12,7 +12,7 @@ toc-title: Table of Contents
 highlight-style: pygments
 editor: visual
 execute:
-  eval: false # change to false before final submission
+  eval: true # change to false before final submission
   echo: true
   message: false
   warning: false
